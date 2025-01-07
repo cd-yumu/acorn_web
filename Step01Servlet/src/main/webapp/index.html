@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<div class="container">
+		<h1>Index Page</h1>
+		
+		<h2>JSP 파일이 응답</h2>
+		<ul>
+			<li><a href="fortune.jsp">오늘의 운세</a></li>
+			<li><a href="friends.jsp">친구 목록</a></li>
+			<li><a href="member.jsp?num=1">1번 회원의 정보 보기</a></li>
+			<li><a href="member/list.jsp">회원 목록 보기</a></li>
+		</ul>
+		
+		
+		<h2>java 파일의 Servlet 객체가 응답</h2>
+		<ul>
+			<li><a href="fortune">오늘의 운세</a></li>
+			<li><a href="friends">친구 목록</a></li>
+			<li><a href="members?num=1">1번 회원의 정보 보기</a></li>
+			<li><a href="member/list">회원 목록 보기</a></li>
+		</ul>
+		
+		<p>get 방식</p>
+		<form action="send" method="get">
+			<input type="text" name="msg" placeholder="할 말 입력...">
+			<button type="submit">전송</button>
+		</form>
+		
+		<br>
+		
+		<p>post 방식</p>
+		<form action="send" method="post">
+			<input type="text" name="msg" placeholder="할 말 입력...">
+			<button type="submit">전송</button>
+		</form>
+		
+		<br>
+		
+		<h2>jsp 페이지로 요청하기</h2>
+		<form action="send.jsp" method="post">
+			<input type="text" name="msg" placeholder="할 말 입력...">
+			<button type="submit">전송</button>
+		</form>
+		
+		
+		
+		
+	</div>
+</body>
+</html>
