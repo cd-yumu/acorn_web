@@ -13,7 +13,6 @@
 		document.querySelector("#myBtn").addEventListener("click",()=>{
 			// JavaScript 로 서버에 요청
 			
-			
 			/*
 				서버(jsp or servlet)에서 응답한 문자열이 json 형식이면
 				return res.json();
