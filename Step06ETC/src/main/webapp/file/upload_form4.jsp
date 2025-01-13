@@ -38,6 +38,23 @@
 			const data = new FormData();
 			data.append("myImage",fileData);
 			// fetch() 함수를 이용해서 업로드 하고 응답받은 데이터를 이용해서 이미지 출력하기
+			
+			// 여기서부터는 다음 시간에
+			fetch("${pageContext.request.contextPath}/file/upload4",{
+				method: "post",
+				body: data
+			})
+			.then(res=>res.json())
+			.then(data=>{
+				const requestPath = "${pageContext.request.contextPath}/upload/" + data.saveFileName;
+				document.querySelector("#profileLink").innerText = "";
+				
+				const src = document.createElement("img");
+				src.setAttribute("src",requestPath);
+				src.setAttribute("width","200");
+				src.setAttribute("height","200");
+				document.querySelector("#profileLink").append(src);
+			})
 		});
 		 
 	</script>

@@ -16,13 +16,13 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.Part;
 
-@WebServlet("/file/upload3")
+@WebServlet("/file/upload4")
 @MultipartConfig(
 		fileSizeThreshold = 1024*1024*5, // 메모리 임계값 (메모리에 5메가 차면 넘기겠다 효율적 사용을 위해)
 		maxFileSize = 1024*1024*50, // 최대 파일 사이즈 (50MB)
 		maxRequestSize = 1024*1024*60 // 최대 요청 사이즈
 )
-public class UploadServlet3 extends HttpServlet{
+public class UploadServlet4 extends HttpServlet{
 	
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -75,7 +75,7 @@ public class UploadServlet3 extends HttpServlet{
 		req.setAttribute("uploadPath", uploadPath);
 		
 		//jsp 페이지로 응답을 위임하기
-		RequestDispatcher rd=req.getRequestDispatcher("/file/upload3.jsp");
+		RequestDispatcher rd=req.getRequestDispatcher("/file/upload4.jsp");
 		rd.forward(req, resp);
 		
 		
