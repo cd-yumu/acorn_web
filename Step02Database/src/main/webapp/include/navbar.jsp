@@ -8,8 +8,7 @@
 	<nav class="navbar navbar-expand-md bg-primary" data-bs-theme="dark">
 		<div class="container">
 			<a class="navbar-brand" href="${pageContext.request.contextPath}/">Acorn</a>
-			<button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-				data-bs-target="#navbarNav">
+			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
 				<span class="navbar-toggler-icon"></span>
 			</button>
 			<div class="collapse navbar-collapse" id="navbarNav">

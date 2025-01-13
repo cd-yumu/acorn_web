@@ -10,8 +10,8 @@
 <meta charset="UTF-8">
 <title>index.jsp</title>
 <jsp:include page="/include/resource.jsp"></jsp:include>
-<!-- 이 부분은 resource.jsp 가 응답한다. -->
-<jsp:include page="/include/resource.jsp"></jsp:include>
+<!-- 이 부분은 resource.jsp 가 응답한다. 
+<jsp:include page="/include/resource.jsp"></jsp:include>-->
 </head>
 <body class="d-flex flex-column min-vh-100">
 	<div class="main flex-grow-1">
@@ -19,6 +19,7 @@
 		<jsp:include page="/include/navbar.jsp">
 			<jsp:param value="index" name="current" />
 		</jsp:include>
+		
 		<div class="container">
 			<h1>Index Page</h1>
 			<ul>
