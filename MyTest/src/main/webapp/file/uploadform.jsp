@@ -9,8 +9,7 @@
 <body>
 	<div class="container">
 		<h3>파일 업로드 폼</h3>
-		<form action="${pageContext.request.contextPath}/file/upload"
-			method="post" enctype="multipart/form-data">
+		<form action="${pageContext.request.contextPath}/file/upload" method="post" enctype="multipart/form-data">
 			<input type="text" name="title" placeholder="설명 입력..." /> 
 			<br /> 
 			<input type="file" name="myFile" /> 

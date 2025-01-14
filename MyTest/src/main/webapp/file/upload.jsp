@@ -12,7 +12,7 @@
 <body>
 
 	<script>
-		alert("파일 저장 완료 \n 파일 이름: " + <%=orgFileName%> );
+		alert("파일 저장 완료 \n 파일 이름: " + <%=fileName%> );
 	</script>
 </body>
 </html>

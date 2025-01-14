@@ -35,7 +35,7 @@ public class UploadServlet4 extends HttpServlet{
 			uploadDir.mkdir(); //실제로 폴더 만들기
 		}
 		
-		String title = req.getParameter("title");
+		//String title = req.getParameter("title"); 이 정보는 넘어오지 않는다.
 		
 		//파일명이 겹치지 않게 저장하기 위한 랜덤한 문자열 얻어내기
 		String uid = UUID.randomUUID().toString();
@@ -64,15 +64,8 @@ public class UploadServlet4 extends HttpServlet{
 			Files.copy(is,  Paths.get(filePath));
 		}
 		
-		//파일의 크기 얻어내기 (큰 정수이기 때문에 long type 이다)
-		long fileSize = filePart.getSize();
-		
 		// 응답에 필요한 데이터를 request 영역에 담기
-		req.setAttribute("title", title);
-		req.setAttribute("orgFileName", orgFileName);
 		req.setAttribute("saveFileName", saveFileName);
-		req.setAttribute("fileSize", fileSize);
-		req.setAttribute("uploadPath", uploadPath);
 		
 		//jsp 페이지로 응답을 위임하기
 		RequestDispatcher rd=req.getRequestDispatcher("/file/upload4.jsp");

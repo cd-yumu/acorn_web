@@ -10,7 +10,7 @@
 	<div class="container">
 		<ul>
 			<li><a href="cookie/loginform.jsp">Login</a></li>
-			<li><a href="file.uploadform.jsp">File Upload</a></li>
+			<li><a href="uploadform.jsp">File Upload</a></li>
 		</ul>
 	</div>
 </body>

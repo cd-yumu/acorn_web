@@ -16,12 +16,12 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.Part;
 
-@WebServlet("/file/upload")
-@MultipartConfig(
+@WebServlet("/file/upload") 
+@MultipartConfig( //multipart/form-data 형식의 요청 시 반드시 있어야 한다.
 		fileSizeThreshold = 1024*1024*5, // 메모리 임계값 (메모리에 5메가 차면 넘기겠다 효율적 사용을 위해)
 		maxFileSize = 1024*1024*50, // 최대 파일 사이즈 (50MB)
 		maxRequestSize = 1024*1024*60 // 최대 요청 사이즈
-)
+)//자바파일이 클래스 파일로 변형되는 컴파일 단계에서 어노테이션의 역할이 크다! 그 때 기능을 덧붙여줌
 public class UploadServlet extends HttpServlet{
 	
 	@Override
@@ -35,13 +35,16 @@ public class UploadServlet extends HttpServlet{
 			uploadDir.mkdir(); //실제로 폴더 만들기
 		}
 		
-		String title = req.getParameter("title");
+		// input type = "text" 에 입력한 문자열 얻어내기
+		String title = req.getParameter("title"); //@MultipartConfig 이 없었다면 원래 null 값뿐이다.
 		
 		//파일명이 겹치지 않게 저장하기 위한 랜덤한 문자열 얻어내기
 		String uid = UUID.randomUUID().toString();
 		
 		String orgFileName=null;
 		String saveFileName=null;
+		
+		
 		
 		//파일 데이터 처리
 		Part filePart = req.getPart("myFile");
