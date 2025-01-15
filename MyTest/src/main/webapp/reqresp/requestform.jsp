@@ -21,7 +21,7 @@
 	
 	<ul>
 		<li><a href="responsejsp.jsp">JSP 파일이 응답</a></li>
-		<li><a href="responsejava">Java 파일의 Servlet 객체가 응답</a>
+		<li><a href="${pageContext.request.contextPath}/responsejava">Java 파일의 Servlet 객체가 응답</a>
 			<p>responsejava 로 요청하면 "/MyTest/reqresp/responsejava" 왜???</p>
 			<p>나는 "/MyTest/responsejava" 가 된다고 생각했는데..?</p>
 		</li>
