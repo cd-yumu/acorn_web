@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>test01.html</title>
+<style>
+	.box{
+		width:100px;
+		height:100px;
+		background-color: yellow;
+		border: 1px solid red;
+	}
+</style>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+	<div class="container" id="app">
+		<input type="text" v-model="msg"/>  <!-- 이 요소의 value를 msg 라는 model 에 넣어라 -->
+		<p>{{msg}}</p>
+		
+		<h3>좋아하는 음식을 선택해 보세요</h3>
+		<select v-model="food">
+			<option value="">선택</option>
+			<option value="ramen">라면</option>
+			<option value="kimbap">김밥</option>
+			<option value="dduck">떡볶이</option>
+		</select>
+		<p>나는 <strong>{{food}}</strong> 을(를) 좋아해요!</p>
+		
+		<h3>노란 박스</h3> 
+		<input type="checkbox" v-model="isShow"/> 보이게하기 <!-- check box 의 value 를 vue 로 관리하겠다. -->
+		<div class="box" v-show="isShow"></div>
+		
+		<h3>목록 출력</h3>
+		<button @click="change">동물로 변경</button>
+		<ul>
+			<li v-for="tmp in names">{{tmp}}</li> 
+		</ul>
+	</div>
+	
+	<script>
+		new Vue({
+			el:"#app",
+			data:{ // 여긴 모델 영역이다.
+				msg:"",
+				food:"ramen",
+				isShow:false,
+				names:["김구라","해골","원숭이"] // names 라는 모델을 배열이다.
+			},
+			methods:{
+				change:function(){
+					this.names = ["강아지", "코끼리", "사자"];
+				}
+			}
+		});
+	</script>
+</body>
+</html>
