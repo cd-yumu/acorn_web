@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>atest.html</title>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+	<div class="one">
+		
+		<fieldset>
+			<legend>바꾸기</legend>
+			<button v-on:click="change">바꾸기</button>
+			<p>{{fruit}}</p>
+		</fieldset>
+		
+		
+		<fieldset>
+			<legend>쓰는대로 보여주기</legend>
+			<input type="text" v-model="msg"/>
+			<p>{{msg}}</p>
+		</fieldset>
+		
+		<fieldset>
+			<legend>선택한대로 보여주기</legend>
+			<select v-model="weapon">
+				<option value="">선택</option>
+				<option value="sword">강철검</option>
+				<option value="bow">활</option>
+				<option value="axe">도끼</option>
+			</select>
+			<p>선택한 무기: <strong>{{weapon}}</strong></p>
+		</fieldset>
+		
+		<fieldset>
+			<legend>체크하면 보이고 안보고</legend>
+			<input type="checkbox" v-model="isShow" />
+			<div v-show="isShow" style="width:100px;height:100px;background-color:green"></div>
+		</fieldset>
+		
+		<fieldset>
+			<legend>vue로 for 반복문 사용</legend>
+			<button @click="changeAll">바꾸기</button>
+				<ul>
+					<li v-for="tmp in nums" >{{tmp}}</li>
+				</ul>
+		</fieldset>
+	</div>
+	
+	
+	<script>
+		new Vue({
+			el : ".one",
+			data : {
+				fruit : "apple",
+				msg : "",
+				weapon : "",
+				isShow : false,
+				nums : ["one", "two", "three"]
+			},
+			methods : {
+				change : function(){
+					this.fruit = "orange";
+				},
+				changeAll : function(){
+					this.nums = ["four", "five", "six"];
+				}
+			}
+		});
+	</script>
+</body>
+</html>
