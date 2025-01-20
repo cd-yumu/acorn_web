@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+	<div id="app">
+		<p>${pageContext.request.servletContext}</p>
+		<button>json요청</button>
+		<table>
+			<thead>
+				<tr>
+					<th>번호</th>
+					<th>이름</th>
+					<th>주소</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr v-for="tmp in members">
+					<td>{{tmp.num}}</td>
+					<td>{{tmp.name}}</td>
+					<td>{{tmp.addr}}</td>
+				</tr>
+			</tbody>
+		</table>
+		
+		<script>
+		
+			new Vue({
+				el:"#app",
+				data:{
+					members:[]
+				},
+				created(){ // 뷰 초기화 시 발동되는 함수
+					fetch("/mytest/send.jsp")
+					.then(res=>res.json())
+					.then(data=>{
+						this.members = data;
+					})
+					.catch(error=>{
+						console.log("에러정보: " + error)
+					})
+				}
+				
+			})
+		</script>
+		
+	</div>
+</body>
+</html>

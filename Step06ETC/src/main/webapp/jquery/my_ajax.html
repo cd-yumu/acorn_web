@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<h3>ajax 로 요청하기</h3>
+	<input type="text" placeholder="입력하세요.." id="inputMsg"></input>
+	<button id="sendBtn">전송</button>
+	
+	<h3>친구 목록 받아오기</h3>
+	<button id="getBtn">받아오기</button>
+	<ul id="list"></ul>
+	
+	
+	
+	<script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
+	<script>
+		$("#sendBtn").click(()=>{
+			
+			const msg = $("#inputMsg").val();
+				
+			$.ajax({
+				url:"my_send.jsp",
+				method:"post",
+				data:{msg},
+				success:(res)=>{
+					console.log(res);
+				}
+			});	
+		});
+		
+		$("#getBtn").click(()=>{
+			$.ajax({
+				url:"my_friends.jsp",
+				method:"post",
+				success:(res)=>{
+					for(let i = 0; i<res.length; i++){
+						$("<li>").text(res[i]).appendTo("#list");	
+					}
+				}
+			});
+		});
+	</script>
+</body>
+</html>

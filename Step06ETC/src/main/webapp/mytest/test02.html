@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<div id="one">
+		<p>{{name}}</p>
+	</div>
+	
+	<div id="two">
+		<p>{{addr}}</p>
+	</div>
+	
+	<div>
+		<p id="three">{{num}}</p>
+	</div>
+	
+	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+	<script>
+	
+		new Vue({
+			el:"#one",
+			data:{
+				name:"맹구"
+			}
+		})
+		
+		new Vue({
+			el:"#two",
+			data:{
+				addr:"서울"
+			}
+		})
+		
+		new Vue({
+			el:"#three",
+			data:{
+				num:1
+			}
+		})
+	
+	</script>
+	
+</body>
+</html>
