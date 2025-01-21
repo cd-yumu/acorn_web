@@ -15,9 +15,10 @@
 	<script>
 		$("#getBtn").click(()=>{
 			$.ajax({
-				url:"friends.jsp",
+				url:"/Step06ETC/jquery/friends.jsp", //el을(cpath) 사용하지 못하는 이유: .html 페이지에서는 el 해석 못한다. el 은 JSP가 해석
 				method:"post",
-				success:(res)=>{
+				success:(res)=>{ // 응답 페이지의 application/json 를 보고 알아서 json 으로 변경해준다.
+								 // 되어 있지 않으면 직접 json.parse 를 해줘야 한다.
 					// res 는 친구 이름이 들어있는 배열이다.
 					console.log(res);
 					// 반복문 돌면서

@@ -19,7 +19,7 @@
 			$.ajax({
 				url:"send.jsp",
 				method:"post",
-				data:{msg}, // msg:msg 를 줄여서 msg 라고 사용 가능
+				data:{msg}, // msg:msg 를 줄여서 msg 라고 사용 가능 // "msg=hello&type=one..." 쿼리문자열 전달 가능
 				success:(res)=>{
 					console.log(res);
 				}
