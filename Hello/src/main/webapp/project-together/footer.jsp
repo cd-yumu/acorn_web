@@ -8,6 +8,9 @@
 			<li><a href="#" class="text-white text-decoration-none me-3">Privacy Policy</a></li>
 			<li><a href="#" class="text-white text-decoration-none me-3">Terms of Service</a></li>
 			<li><a href="#" class="text-white text-decoration-none">Contact</a></li>
+			<li><a href="#" class="text-white text-decoration-none">About Us</a></li>
+			<li><a href="#" class="text-white text-decoration-none">FAQ</a></li>
+			<li><a href="#" class="text-white text-decoration-none">Support</a></li>
 		</ul>
 	</div>
 </footer>
