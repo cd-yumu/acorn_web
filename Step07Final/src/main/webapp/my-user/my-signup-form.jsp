@@ -7,7 +7,7 @@
 <title>/my-user/my-signup-form.jsp</title>
 <style>
 	.container{
-	border: 1px dotted red; /* 확인용 */
+	border: 1px dotted red; /* 경계선 확인용 */
 	max-width: 700px;
 	margin: 0 auto;
 	}
