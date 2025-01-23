@@ -10,7 +10,7 @@
 <body>
 	<div class="container">
 		<c:choose>
-			<c:when test="${empty seesionScope.sessionDto}">
+			<c:when test="${empty sessionScope.sessionDto}">
 				<a href="${pageContext.request.contextPath}/user/signup-form.jsp">SignUp</a>
 				<a href="${pageContext.request.contextPath}/user/login-form.jsp">Login</a>
 			</c:when>

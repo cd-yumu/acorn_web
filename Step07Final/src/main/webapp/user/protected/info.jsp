@@ -35,6 +35,7 @@
 </head>
 <body>
 	<div class="container">
+		<a href="update-form.jsp">개인정보 수정</a>
 	
 		<h1>가입 정보입니다.</h1>
 		<table>
