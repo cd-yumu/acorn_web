@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>mytest01.html</title>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
+</head>
+<body>
+	<h1>요청하기</h1>
+	<ul>
+		<li>주소창에 직접 URL 입력</li>
+		<li>a요소 링크 클릭</li>
+		<li>form 제출</li>
+		<li><strong>버튼 클릭 + Ajax - 페이지 전환X</strong></li>
+	</ul>
+	
+	<input type="text" placeholder=""/>
+	<button id="sendBtn">버튼</button>
+	<p id="result"></p>
+	
+	<h3>친구 목록 입니다.</h3>
+	<button id="getBtn">친구 목록 받아오기</button>
+	<ul id="list">
+	</ul>
+	
+	
+	<script>
+		$("#getBtn").click(()=>{
+			$.ajax({
+				url:"mysend01.jsp",
+				method:"post",
+				success:(res)=>{
+					console.log(res);
+					
+				}
+			});
+		});
+	
+		$("#sendBtn").click(()=>{
+			const msg = $("input[type=text]").val();
+			
+			$.ajax({
+				url:"mysend01.jsp",
+				method:"post",
+				data:{msg:msg},
+				success:(res)=>{
+					console.log(res);
+					//$("result").innerText("내가 요청한 메시지: " + res.resivedMsg);
+				}
+			});
+		});
+	
+	</script>
+</body>
+</html>
