@@ -28,7 +28,8 @@ public class DbcpBean {
 			Context envContext  = (Context)initContext.lookup("java:/comp/env");
 			
 			// 얻어온 datasource 객체를 이용해서 Connection 객체의 참조값을 얻어와서 지역변수에 저장
-			DataSource ds = (DataSource)envContext.lookup("jdbc/myoracle");
+			//DataSource ds = (DataSource)envContext.lookup("jdbc/myoracle");
+			DataSource ds = (DataSource)envContext.lookup("jdbc/toracle");
 			
 			conn = ds.getConnection();
 			
