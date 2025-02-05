@@ -27,6 +27,7 @@
 			<li><a href="${pageContext.request.contextPath}/jstl/hello.jsp">Home</a></li>
 			<li><a href="${pageContext.request.contextPath}/member-only/play.jsp">Go to Play</a></li>
 			<li><a href="${pageContext.request.contextPath}/post/list.jsp">Posts</a></li>
+			<li><a href="${pageContext.request.contextPath}/toastui/form.jsp">Toast UI Editor</a></li>
 		</ul>
 	</div>
 </body>
