@@ -49,20 +49,6 @@
 <title>글 자세히 보기</title>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" />
 </head>
-<style>
-	.comment-form, .re-insert-form, .update-form{
-		display: flex;
-	}
-	
-	.comment-form textarea, .re-insert-form textarea, .update-form textarea{
-		height: 100px;
-		flex-grow: 1;
-	}
-	
-	.comment-form button, .re-insert-form button, .update-form button{
-		flex-basis: 100px;
-	}
-</style>
 <body>
 	<div class="container">
 		<c:if test="${dto.prevNum ne 0} }">
@@ -129,38 +115,8 @@
 		<h4>댓글을 입력해 주세요</h4>
 		<!-- 원글에 댓글을 작성할 폼 -->	
 		<form class="comment-form" action="protected/commet-insert.jsp" method="post">
-			<!-- 원글의 글번호가 댓글의 postNum 이 된다. -->
-			<input type="hidden" name="postNum" value="${dto.num}"/>
-			<!-- 원글의 작성자가 댓글의 대상자가 된다. -->
-			<input type="hidden" name="targetWriter" value="${dto.writer}" />
-			<textarea name="content">${empty sessionDto ? '댓글 작성을 위해 로그인이 필요합니다' : ''}</textarea>
-			<button type="submit">등록</button>
 		</form>
 		
-		<!-- 댓글 목록 -->
-		<div class="comments">
-			<ul></ul>
-			<div class="more">
-				<button id="moreBtn">댓글 더보기</button>
-			</div>
-		</div>
 	</div>
-	
-	<script>
-		let totalPageCount=0;
-		let currentPage=1;
-		
-		document.querySelector("#moreBtn").addEventListener("click",()=>{
-			if(currentPage >= totalPageCount){
-				alert("댓글의 마지막 페이지 입니다.");
-			}
-			// 댓글 페이지 번호를 1 증가시키고
-			currentPage++;
-			// 해당 페이지의 정보를 요청해서 받아온다.
-			fetch(`comment-list.jsp?pageNum=\${currentPage}&postNum=${dto.num}`)
-			.then(res=>res.json())
-			.then()
-		});
-	</script>
 </body>
 </html>

@@ -54,7 +54,7 @@
 			</p>
 		<%} %>
 		
-		<a href="/index.jsp">홈페이지</a>
+		<a href="${pageContext.request.contextPath }/index.jsp">홈페이지</a>
 	</div>
 </body>
 </html>
