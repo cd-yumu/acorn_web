@@ -1,26 +1,21 @@
 package test.post.dto;
 
 public class PostDto {
-	// fields
-	private long num;			// 글 번호
-	private String writer;		// 글 작성자
-	private String title;		// 글 제목
-	private String content;		// 글 내용
-	private int viewCount;		// 글 조회수
-	private String createdAt;	// 글 생성일
-	private String updatedAt;	// 글 수정일
+	private long num;
+	private String writer;
+	private String title;
+	private String content;
+	private int viewCount;
+	private String createdAt;
+	private String updatedAt;
+	//페이징 처리할때 필요한 필드
+	private int startRowNum;
+	private int endRowNum;
+	private String condition; //검색 조건  writer 또는 title 또는 title+content 
+	private String keyword; //검색 키워드
+	private long prevNum; //이전글의 글번호
+	private long nextNum; //다음글의 글번호 
 	
-	private int startRowNum;	// 한 페이지에 보여줄 글의 시작 row 번호
-	private int endRowNum;		// 한 페이지에 보여줄 글의 끝 row 번호
-	
-	private String condition; 	//검색 조건  writer 또는 title 또는 title+content 
-	private String keyword; 	//검색 키워드
-	
-	private long prevNum; 		//이전글의 글번호
-	private long nextNum; 		//다음글의 글번호 
-	
-	
-	// getter , setter
 	public long getNum() {
 		return num;
 	}
@@ -99,3 +94,5 @@ public class PostDto {
 	public void setNextNum(long nextNum) {
 		this.nextNum = nextNum;
 	}
+	
+}
