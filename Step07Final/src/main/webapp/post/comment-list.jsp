@@ -8,6 +8,7 @@
     pageEncoding="UTF-8"%>
 <%
 	// /post/comment-list.jsp
+	Thread.sleep(2000); // spinner 테스트를 위해 응답 시간을 2초 지연 시킨다.
 	
 	// 댓글의 페이지 번호
 	int pageNum = Integer.parseInt(request.getParameter("pageNum"));
