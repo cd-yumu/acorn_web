@@ -99,4 +99,3 @@ public class PostDto {
 	public void setNextNum(long nextNum) {
 		this.nextNum = nextNum;
 	}
-}
