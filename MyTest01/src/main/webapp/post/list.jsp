@@ -33,7 +33,7 @@
 	//만일 페이지 번호가 파라미터로 넘어 온다면
 	if(strPageNum != null){
 		//숫자로 바꿔서 보여줄 페이지 번호로 지정한다.
-		pageNum=Integer.parseInt(strPageNum);
+		pageNum = Integer.parseInt(strPageNum);
 	}	
 	
 	//보여줄 페이지의 시작 ROWNUM

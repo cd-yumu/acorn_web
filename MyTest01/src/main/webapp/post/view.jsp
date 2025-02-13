@@ -147,9 +147,13 @@
 	</div>
 	
 	<script>
+		// 로그인된 사용자의 이름
+		const userName = "${sessionDto.userName}";
+	
 		let totalPageCount=0;
 		let currentPage=1;
 		
+		// 댓글 더보기 버튼을 눌렀을 때
 		document.querySelector("#moreBtn").addEventListener("click",()=>{
 			if(currentPage >= totalPageCount){
 				alert("댓글의 마지막 페이지 입니다.");
@@ -159,8 +163,168 @@
 			// 해당 페이지의 정보를 요청해서 받아온다.
 			fetch(`comment-list.jsp?pageNum=\${currentPage}&postNum=${dto.num}`)
 			.then(res=>res.json())
-			.then()
+			.then(commentData=>{ // 댓글정보가담긴DTO가담긴 List 와 전체 댓글 수가 응답된다.
+				// 전체 페이지 개수
+				totalPageCount = commentData.totalPageCount;
+				// 댓글 목록에 있는 댓글 정보를 하나 하나 참조하면서
+				commentData.list.forEach(item=>{
+					// 댓글 하나의 정보를 makeList 함수에 전달해 댓글 정보가 출력된 li 요소를 만들어낸다.
+					const li = makeList(item);
+					// 얻어낸 li 요소를 ul에 추가한다.
+					document.querySelector(".comments ul").append(li);
+				});
+			})
 		});
+		
+		
+		function refreshComments(){
+			// 출력된 내용을 모두 지우고 (댓글 목록의 div : comments)
+			document.querySelector(".comments ul").innerHTML = "";
+			
+			// 댓글 1page 내용을 fetch()를 이용해서 받아온다
+			fetch("comment-list.jsp?pageNum=1&postNum=${dto.num}")
+			.then(res=>res.json())
+			.then(commentData=>{
+				// 전체 페이지 개수
+				totalPageCount = commentData.totalPageCount;
+				// 댓글 목록에 있는 댓글 정보를 하나 하나 참조하면서
+				commentData.list.forEach(item=>{
+					// 댓글 하나의 정보를 makeList 함수에 전달해 댓글 정보가 출력된 li 요소를 만들어낸다.
+					const li = makeList(item);
+					// 얻어낸 li 요소를 ul에 추가한다.
+					document.querySelector(".comments ul").append(li);
+				});
+			})
+			
+		}
+		
+		// 페이지가 로드될 때 실행된다.
+		refreshComments();
+		
+		function makeList(comment){ // dto 객체가 인자로 넘어온다.
+			// li 요소를 만들어서
+			const li = document.createElement("li");
+			// 댓댓글이면 들여쓰기, 그냥 댓글이면 들여쓰기 안 함 - 만든 li 요소의 class 속성에 넣을지 말지
+			li.classList.add(comment.num !== comment.pareNum ? "indent" : "indent")
+			
+			// 만약 삭제된 댓글이라면
+			if(comment.deleted == "yes"){
+				li.innerHTML = `
+					<svg style="\${comment.num != comment.parentNum ? 'display:inline' : ''}"  class="reply-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+	  					<path fill-rule="evenodd" d="M1.5 1.5A.5.5 0 0 0 1 2v4.8a2.5 2.5 0 0 0 2.5 2.5h9.793l-3.347 3.346a.5.5 0 0 0 .708.708l4.2-4.2a.5.5 0 0 0 0-.708l-4-4a.5.5 0 0 0-.708.708L13.293 8.3H3.5A1.5 1.5 0 0 1 2 6.8V2a.5.5 0 0 0-.5-.5z"/>
+					</svg>
+					<pre>삭제된 댓글입니다</pre>
+				`;
+				// 삭제된 댓글입니다가 출력된 li 를 바로 리턴해주고 끝
+				return li;
+			}
+			
+			// 프로필 이미지 처리
+			const profileImage = comment.profileImage 
+				? `<img class="profile-image" src="${pageContext.request.contextPath }/upload/\${comment.profileImage}" alt="Profile Image">`
+				: `<svg class="profile-image default-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                    <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
+                    <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"/>
+                </svg>`; 
+                // 넘어온 인자 dto 에 profileImage 값이 있으면 그 이미지를 쓰고 아니면 기본 이미지 사용
+                
+			// 수정 삭제 링크 처리
+			const link = userName == comment.writer
+				? `
+            		<a class="update-link" href="javascript:">수정</a>
+					<a class="delete-link" href="javascript:">삭제</a>
+            	` 
+            	: "";
+			
+			li.innerHTML=`
+				<svg style="\${comment.num != comment.parentNum ? 'display:inline' : ''}"  class="reply-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+	  				<path fill-rule="evenodd" d="M1.5 1.5A.5.5 0 0 0 1 2v4.8a2.5 2.5 0 0 0 2.5 2.5h9.793l-3.347 3.346a.5.5 0 0 0 .708.708l4.2-4.2a.5.5 0 0 0 0-.708l-4-4a.5.5 0 0 0-.708.708L13.293 8.3H3.5A1.5 1.5 0 0 1 2 6.8V2a.5.5 0 0 0-.5-.5z"/>
+				</svg>
+				<dl>
+					<dt class="comment-header">
+					    <!-- 프로필 이미지 -->
+					    <div class="comment-profile">
+					        \${profileImage}
+					        <div class="comment-meta">
+					            <span class="comment-writer">
+					            	\${comment.writer}
+					            	\${comment.num != comment.parentNum ? '@' + comment.targetWriter : ''}
+					            </span>
+					            <small class="comment-date">\${comment.createdAt}</small>
+				        	</div>
+					    </div>
+					
+					    <!-- 답글, 수정, 삭제 버튼 -->
+					    <div class="comment-actions">
+					        <a class="reply-link" href="javascript:">답글</a>
+					        \${userName == comment.writer ? `
+					            <a class="update-link" href="javascript:">수정</a>
+					            <a class="delete-link" href="javascript:">삭제</a>
+					        ` : ''}
+					    </div>
+					</dt>
+
+					<dd>
+						<pre>\${comment.content}</pre>
+					</dd>
+				</dl>
+				<!-- 댓글의 댓글 작성할 폼 미리 출력하기 -->
+				<form class="re-insert-form"  method="post">
+					<input type="hidden" name="postNum" value="${dto.num }"/>
+					<input type="hidden" name="targetWriter" value="\${comment.writer }"/>
+					<input type="hidden" name="parentNum" value="\${comment.parentNum }"/>
+					<textarea name="content"></textarea>
+					<button type="submit">등록</button>
+				</form>
+				<!-- 댓글 수정폼 -->
+				<form  class="update-form"  method="post">
+					<input type="hidden" name="num" value="\${comment.num}"/>
+					<textarea name="content">\${comment.content}</textarea>
+					<button type="submit">수정확인</button>
+				</form>	
+			`;
+			
+			// li 요소에 delete-link class 가 있다면 그 요소에 이벤트 리스너 달기
+			li.querySelector(".delete-link") && li.querySelector(".delete-link").addEventListener("click", (e)=>{
+				// .delete-link 를 누르면 삭제 확인 알림창 띄우기
+				const isDelete = confirm("댓글을 삭제하시겠습니까?");
+				// 응답이 긍정일 때
+				if(isDelete){
+					// 댓글 삭제 기능을 수행하는 jsp 페이지로 댓글번호와 함께 요청보내기
+					fetch("protected/comment-delete.jsp?num=" + comment.num)
+					.then(res=>res.json())
+					.then(data=>{
+						if(data.isSuccess){
+							// 응답된 값이 성공이면 댓글이 있던자리에 "삭제된 댓글입니다."를 출력
+							li.innerHTML = `
+								<svg style="\${comment.num != comment.parentNum ? 'display:inline' : ''}"  class="reply-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+				  				<path fill-rule="evenodd" d="M1.5 1.5A.5.5 0 0 0 1 2v4.8a2.5 2.5 0 0 0 2.5 2.5h9.793l-3.347 3.346a.5.5 0 0 0 .708.708l4.2-4.2a.5.5 0 0 0 0-.708l-4-4a.5.5 0 0 0-.708.708L13.293 8.3H3.5A1.5 1.5 0 0 1 2 6.8V2a.5.5 0 0 0-.5-.5z"/>
+								</svg>
+								<pre>삭제된 댓글입니다.</pre>
+							`;
+						}
+					})
+				}
+			});
+			
+			// 수정 버튼을 눌렀을 때
+			li.querySelector(".update-form").addEventListener("submit",(e)=>{
+				// 폼 제출 이벤트를 막기
+				e.preventDefault();
+				
+				// submit 이벤트가 일어난 form 의 참조값을 form 이라는 변수에 담기
+				const form = e.target;
+				
+				// 폼에 입력된 전송할 내용을 query 문자열 형식으로 얻어내기
+				const queryString = new URLSearchForm(new Formdata(form)).toString();
+				
+			});
+			
+			
+			return li;
+			
+		}
+		
 	</script>
 </body>
 </html>
