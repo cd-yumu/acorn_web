@@ -10,7 +10,6 @@ import org.springframework.stereotype.Component;
  * 
  * - 어디를 scan 하게 되나?
  * 	@SpringApplication 어노테이션이 붙어있는 클래스가 존재하는 페키지 혹은 하위 페키지를 모두 scan 한다.
- * 
  */
 
 @Component
