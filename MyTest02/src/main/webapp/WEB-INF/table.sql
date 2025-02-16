@@ -1,0 +1,34 @@
+-- 글 정보
+CREATE TABLE POSTS (
+	NUM NUMBER PRIMARY KEY,
+	WRITER VARCHAR2(100) NOT NULL,
+	TITEL VARCHAR2(100) NOT NULL,
+	CONTENT CLOB,
+	VIEWCOUNT NUMBER DEFAULT 0,
+	CREATEDAT DATE DEFAULT SYSDATE,
+	UPDATEDAT DATE DEFAULT SYSDATE
+);
+-- 글 번호 시퀀스 (글 정보 테이블에서 사용)
+CREATE SEQUENCE POSTS_SEQ;
+
+-- 어떤 세션에서 몇번 글을 읽었는지 정보를 저장할 테이블
+CREATE TABLE READED_DATE(
+	NUM NUMBER REFERENCES POSTS(NUM),
+	SESSION_ID VARCHAR2(50)
+);
+
+-- 댓글 정보
+CREATE TABLE COMMENTS (
+	NUM NUMBER PRIMARY KEY,					-- 댓글 고유 번호
+	PARENT_NUM NUMBER NOT NULL,				-- 댓댓글 경우 부모 댓글 번호 (첫 댓글이면 댓글 고유 번호와 같다)
+	POST_NUM NUMBER NOT NULL,				-- 댓글 단 글 번호
+	TARGET_WRITER VARCHAR2(100) NOT NULL,	-- 댓댓글 경우 부모 댓글의 작성자 (누굴 향한 댓글인지)
+	WRITER VARCHAR2(100) NOT NULL,			-- 댓글 작성자
+	CONTENT VARCHAR2(500) NOT NULL,			-- 댓글 내용
+	DELETED CHAR(3) DEFAULT 'NO',			-- 댓글 삭제 여부 (삭제 YES 시, 데이터를 삭제하는 것이 아닌 댓글 구조 유지를 위해 내용을 그저 표시하지 않음)
+	CREATEDAT DATE DEFAULT SYSDATE,			-- 댓글 생성일
+	UPDATEDAT DATE DEFAULT SYSDATE			-- 댓글 수정일
+);
+
+-- 댓글 번호 시퀀스 (댓글 정보 테이블에서 사용)
+CREATE SEQUENCE COMMENTS_SEQ;
