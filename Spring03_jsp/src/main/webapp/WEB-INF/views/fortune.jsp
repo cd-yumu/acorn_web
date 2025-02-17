@@ -12,5 +12,5 @@
 		<p>오늘의 운세 : <strong>${fortuneToday}</strong></p>
 		<a href="${pageContext.request.contextPath}/">인덱스로 가기</a>
 	</div>
-</body>
+</bo dy>
 </html>
