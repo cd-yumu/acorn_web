@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>/templates/member/update.html</title>
+</head>
+<body>
+	<!-- /*
+	<script>
+		// 근데 왜 param 이 있지???
+		alert("[[${param.name}]] 님의 정보가 수정되었습니다.");
+		// 위 부분은 웹 페이지에서는 alert("해해22 님의 정보가 수정되었습니다.");
+		location.href="[[@{/member/list}]]"; 
+		//위 부분은 웹 페이지에서는 location.href="/spring05/member/list"; 로 응답된다.
+	</script>
+	*/ -->
+	<script th:inline="javascript">
+		alert(/*[[${param.addr}+ ' 님의 정보를 수정했습니다.']]*/);
+		location.href=/*[[@{/member/list}]]*/"";
+	</script>
+</body>
+</html>
