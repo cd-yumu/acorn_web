@@ -24,7 +24,7 @@
 		DELETE FROM member WHERE num = #{num} 
 	</delete>
 	
-	<update id="update">
+	<update id="update" parameterType="com.example.spring05.dto.MemberDto">
 		UPDATE member 
 		SET name = #{name}, addr = #{addr}
 		WHERE num = #{num}
