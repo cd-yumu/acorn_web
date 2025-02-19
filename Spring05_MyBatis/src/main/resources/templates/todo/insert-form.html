@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>templates/todo/insert-form.html</title>
+</head>
+<body>
+	<div class="container">
+		<h1>New List</h1>
+		
+		<form th:action="@{/todo/insert}" method="post">
+		
+			<label for="content"></label>
+			<textarea rows="5" id="content" name="content"></textarea>
+			
+			<button type="submit">Add Content</button>
+		</form>
+	
+	</div>
+</body>
+</html>

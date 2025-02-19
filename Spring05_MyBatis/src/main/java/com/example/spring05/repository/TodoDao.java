@@ -1,0 +1,13 @@
+package com.example.spring05.repository;
+
+import java.util.List;
+
+import com.example.spring05.dto.TodoDto;
+
+public interface TodoDao {
+	public List<TodoDto> getList();
+	public TodoDto getData(int id);
+	public void update(TodoDto dto);
+	public void insert(String content);
+	public void delete(int id);
+}

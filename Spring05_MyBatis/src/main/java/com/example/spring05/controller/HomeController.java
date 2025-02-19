@@ -14,5 +14,8 @@ public class HomeController {
 	public String home() {
 		
 		return "home";
+		
+		// Thymeleaf 사용할 때:  /templates/home.html
+		// JSP 사용할 때: 		  /WEB-INF/views/home.jsp
 	}
 }

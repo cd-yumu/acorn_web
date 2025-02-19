@@ -25,7 +25,7 @@
 					<td th:text="${tmp.num}"></td>
 					<td th:text="${tmp.name}"></td>
 					<td>[[${tmp.addr}]]</td>
-					<td><a th:href="@{/member/old(num=${tmp.num})}">수정</a></td>
+					<td><a th:href="@{/member/edit(num=${tmp.num})}">수정</a></td>
 					<td><a th:href="@{/member/delete(num=${tmp.num})}">삭제</a></td>
 				</tr>
 			</tbody>

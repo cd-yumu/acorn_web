@@ -29,10 +29,18 @@ public class MemberController {
 		return "member/insert";
 	}
 	
+	@GetMapping("/member/edit")
+	public String updateForm(int num, Model model) {
+		// Get 방식 파라미터로 전달되는 회원의 번호를 이용해서 회원 정보를 얻어온다.
+		MemberDto dto = dao.getData(num);
+		// 응답에 필요한 데이터를 Model 객체에 담는다.
+		model.addAttribute("dto", dto);
+		return "member/edit";
+	}
+	
 	@PostMapping("/member/update")
 	public String update(MemberDto dto) {
 		dao.update(dto);
-		
 		return "member/update";
 	}
 	
@@ -50,22 +58,19 @@ public class MemberController {
 		model.addAttribute("list", list);
 		// Thymeleaf view 페이지에서 회원 목록을 응답한다.
 		return "member/list";
+		
+		// /templates/
 	}
 	
-	@GetMapping("/member/old")
-	public String updateForm(Model model, int num) {
-		
-		MemberDto dto = dao.getData(num);
-		
-		model.addAttribute("dto", dto);
-		
-		return "member/old";
-	}
-	
+
 	@GetMapping("/member/delete")
 	public String delete(int num) {
 		dao.delete(num);
-		return "member/delete";
+		return "redirect:/member/list";
+		// String cPath="request.getContextPath();
+		// response.sendRedirect(cPath + ".member/list");
+		// redirect: 로 시작하게 되면 templates 폴더의 위치가 아니게 된다.
+		// 그리고 그 뒤에 경로 요청을 다시 하게 된다.
 	}
 	
 

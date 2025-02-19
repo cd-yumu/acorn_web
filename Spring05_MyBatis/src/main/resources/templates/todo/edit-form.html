@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>/templates/todo/edit-form.html</title>
+</head>
+<body>
+	<div class="container">
+		<h1>Edit Content</h1>
+		
+		<form th:action="@{/todo/edit}" method="post">
+			<label for="id"></label>
+			<input type="text" id="id" name="id" th:value="${dto.id}" readonly />
+		
+			<label for="content"></label>
+			<textarea rows="5" id="content" name="content">[[${dto.content}]]</textarea>
+			
+			<button type="submit">Edit Content</button>
+		</form>
+	
+	</div>
+</body>
+</html>

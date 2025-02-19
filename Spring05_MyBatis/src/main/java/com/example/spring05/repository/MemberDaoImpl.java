@@ -14,7 +14,7 @@ public class MemberDaoImpl implements MemberDao{
 
 	// MyBatis 기반으로 DB 관련 작업을 하기 위한 핵심 의존 객체를 DI 받는다.
 	@Autowired
-	private SqlSession session;
+	private SqlSession session; // MyBatis 의 Session 객체를 이용
 	
 	@Override
 	public List<MemberDto> getList() {
@@ -46,6 +46,11 @@ public class MemberDaoImpl implements MemberDao{
 
 	@Override
 	public void update(MemberDto dto) {
+		/*
+		 * Mapper namespace: member
+		 * sql id: update
+		 * parameterType: MemberDto
+		 */
 		session.update("member.update", dto);
 	}
 
