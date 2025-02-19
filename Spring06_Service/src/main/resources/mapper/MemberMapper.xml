@@ -11,7 +11,7 @@
 	<select id="getData" parameterType="int" resultType="memberDto">
 		SELECT num, name, addr
 		FROM member
-		WHERE num = #{num}
+		WHERE num = #{num} 
 	</select>
 	
 	<insert id="insert" parameterType="memberDto">
