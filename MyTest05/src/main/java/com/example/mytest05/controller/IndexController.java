@@ -22,6 +22,9 @@ public class IndexController {
 		// 페이지 이동시 데이터 가져가기 (Model 에 담는다 = Request 영역에 담는다)
 		model.addAttribute("noticeList",noticeList);
 		
+		model.addAttribute("id", "eugene");
+		model.addAttribute("name", "맹구 인형");
+		
 		// 아무런 설정이 없는 경로는 자동으로 templates 폴더 안의 파일로 인식
 		return "home";
 	}

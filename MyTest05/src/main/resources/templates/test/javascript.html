@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<h1>Javascript + Thymeleaf</h1>
+	<script>
+		let result = "[[${hello}]]";
+		console.log("result: " + [[${hello}]]);
+		[[${dto}]] // 이 값은 어디에도 쓰일 수 없다.
+	</script>
+	<script th:inline="javascript">
+		[[${dto}]] // {"num":1,"name":"\uB9F9\uAD6C","addr":"\uAC15\uB0A8"}
+		[(${dto})] // com.example.mytest05.dto.MemberDto@7f805f69
+		/*[[${dto}]]*/ //{"num":1,"name":"\uB9F9\uAD6C","addr":"\uAC15\uB0A8"}
+		/*[[${list}]]*/ //[{"num":1,"name":"\uAE40\uAD6C\uB77C","addr":"\uB178\uB7C9\uC9C4"},{"num":2,"name":"\uD574\uACE8","addr":"\uD589\uC2E0\uB3D9"},{"num":3,"name":"\uC6D0\uC22D\uC774","addr":"\uC0C1\uB3C4\uB3D9"}]
+	</script>
+</body>
+</html>

@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<div th:fragment="myCode">
+		<p>난 여기에 이걸 출력할꺼얏</p>
+		<p>어쩌구리 저쩌구리</p>
+	</div>
+	
+	<article th:fragment="ourCode">
+		<p>[[${title}]]</p>
+		<p>[[${content}]]</p>
+	</article>
+</body>
+</html>
