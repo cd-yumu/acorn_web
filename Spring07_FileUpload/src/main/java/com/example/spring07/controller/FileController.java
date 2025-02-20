@@ -71,7 +71,6 @@ public class FileController {
 			// 리턴해주면 파일이 다운로드 된다.
 			return resEntity;
 			
-			
 		} catch(Exception e) {
 			// 예외 정보를 콘솔에 출력
 			e.printStackTrace();
