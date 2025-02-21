@@ -62,6 +62,7 @@ public class SecurityConfig {
 				.expiredUrl("/user/expired") //허용 세션 갯수가 넘어서 로그인 해제된 경우 리다일렉트 이동시킬 경로
 		);
 		
+		// 설정 정보를 가지고 있는 HttpSecurity 객체의 built() 메소드를 호출해서 리턴되는 객체를 리턴해준다.
 		return httpSecurity.build();
 	}
 	
