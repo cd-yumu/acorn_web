@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>/home.html</title>
+</head>
+<body>
+	<div class="container">
+		
+		
+		<div sec:authorize="isAuthenticated()">
+			<strong sec:authentication="name"></strong> 님 로그인중
+			<br>
+			<strong>[[${#authentication.principal.username}]]</strong> 님 로그인중
+			<br>
+			<a th:href="@{/user/logout}">Logout</a>
+		</div>
+		<div sec:authorize="!isAuthenticated()">
+			로그인중이 아님
+			<a th:href="@{/user/loginform}">Login</a>
+			<a th:href="@{/user/singup-form}">Sign-up</a>
+		</div>
+	
+	
+	
+		<h1>Index Page.</h1>
+		<h3>Notice</h3>
+		<ul>
+			<li th:each="tmp:${noticeLsit}" th:text="${tmp}"></li>
+		</ul>
+		
+	</div>
+</body>
+</html>
