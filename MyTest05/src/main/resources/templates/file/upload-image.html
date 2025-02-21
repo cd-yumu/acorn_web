@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>/templates/file/upload.html</title>
+</head>
+<body>
+	<div class="container">
+		<h3>이미지 업로드 결과</h3>
+		<p><strong>[[${orgFileName}]]</strong> 이미지를 저장 했습니다.</p>
+		<p>저장된 파일명: <strong th:text="${saveFileName}"></strong></p>
+		<p>파일의 크기: <strong th:text="${fileSize}"></strong></p>
+		<p>제목: <strong th:text="${title}"></strong></p>
+		
+		<a th:href="@{/file/download(
+			orgFileName=${orgFileName}, 
+			saveFileName=${saveFileName}, 
+			fileSize=${fileSize})}">이 이미지 다운로드 받기</a>
+	</div>
+</body>
+</html>
