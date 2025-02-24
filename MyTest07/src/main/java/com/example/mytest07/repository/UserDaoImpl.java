@@ -1,10 +1,10 @@
-package com.example.spring10.repository;
+package com.example.mytest07.repository;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.example.spring10.dto.UserDto;
+import com.example.mytest07.dto.UserDto;
 
 @Repository
 public class UserDaoImpl implements UserDao {
@@ -28,15 +28,14 @@ public class UserDaoImpl implements UserDao {
 	}
 
 	@Override
-	public int updatePassword(UserDto dto) {
-		return session.update("user.updatePassword", dto);
+	public int updatePwd(UserDto dto) {
+		return 0;
 	}
 
 	@Override
 	public int update(UserDto dto) {
-		return session.update("user.update", dto);
+		return 0;
 	}
-	
 
 
 }

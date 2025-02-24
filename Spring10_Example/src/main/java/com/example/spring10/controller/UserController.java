@@ -1,24 +1,100 @@
 package com.example.spring10.controller;
 
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.example.spring10.dto.UserDto;
 import com.example.spring10.service.UserService;
+
+import jakarta.servlet.http.HttpSession;
 
 @Controller
 public class UserController {
 	
 	@Autowired private UserService service;
 	
+	@PostMapping("/user/update")
+	public String update(UserDto dto) {
+		// 서비스를 이용해서 개인 정보를 수정하고
+		service.updatedUserInfo(dto);
+		// 다시 개인 정보 보기로 리다이렉트 이동한다.
+		return "redirect:/user/info";
+	}
+	
+	
+	/*
+	 * @AuthenticationPrincipal 어노테이션을 이용하면 로그인된 사용자의 정보를 담고 있는
+	 * UserDetails 객체를 얻어낼 수 있다.
+	 */
+	
+	@GetMapping("/user/edit")
+	public String edit(@AuthenticationPrincipal UserDetails ud, Model model) {
+		// 로그인된 사용자의 userName  
+		String userName = ud.getUsername();
+		UserDto dto = service.getByUserName(userName);
+		model.addAttribute("dto", dto);
+		
+		return "user/edit"; 
+	}
+	
+	@PostMapping("/user/update-password")
+	public String updatePassword(UserDto dto, HttpSession session) {
+		// 서비스를 이용해서 비밀번호를 수정하고
+		service.changePassword(dto);
+		// 로그아웃 처리
+		session.invalidate();
+		return "user/update-password";
+	}
+	
+	@GetMapping("/user/edit-password")
+	public String editPassword() {
+		
+		return "user/edit-password";
+	}
+	
+	@GetMapping("/user/info")
+	public String ingo(Model model) {
+		// 로그인 되어 있는 userName 얻어내기
+		String userName = SecurityContextHolder.getContext().getAuthentication().getName();
+		// 로그인된 userName 을 이용해서 사용자 정보를 얻어와서
+		UserDto dto = service.getByUserName(userName);
+		// dto 라는 키값으로 담고
+		model.addAttribute("dto", dto);
+		// view page 에서 응답하기
+		return "user/info";
+	}
+	
+	// 사용 가능한 아이디인지 여부를 json 문자열로 응답하기
+	@ResponseBody // 응답 데이터가 View Page 가 아니고 리턴값 그 자체이기 때문에 (Map 또는 Dto 경우)
+	@GetMapping("/user/checkid")
+	public Map<String, Boolean> checkId(String userName){
+		
+		// get 방식 파라미터로 전달되는 userName 을 이용해서 UserDto 를 얻어와 본다.
+		UserDto dto = service.getByUserName(userName);
+		// dto 가 null 이면 사용 가능
+		boolean canUse = dto == null ? true : false;
+		
+		// Map 객체에 사용가능 여부를 담아서 리턴한다.
+		Map<String, Boolean> map = Map.of("canUse", canUse);
+		
+		return map;
+	}
+	
 	// 회원 가입 요청 처리
 	@PostMapping("/user/signup")
 	public String signup(UserDto dto) {
 		// 서비스를 이용해서 회원 가입 처리를 한다.
-		service.save(dto);
+		service.createUser(dto);
 		return "user/signup";
 	}
 	

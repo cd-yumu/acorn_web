@@ -1,26 +1,23 @@
-package com.example.spring10;
+package com.example.mytest07;
 
 import java.io.IOException;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.event.EventListener;
 
-// 파일 업로드 위치 정보를 가지고 있는 custom.properties 파일을 로딩시키기 위한 어노테이션
-@PropertySource(value="classpath:custom.properties")
 @SpringBootApplication
-public class Spring10ExampleApplication {
+public class MyTest07Application {
 
 	public static void main(String[] args) {
-		SpringApplication.run(Spring10ExampleApplication.class, args);
+		SpringApplication.run(MyTest07Application.class, args);
 	}
-	
+
 	// 서버가 준비 되었을 때 실행할 메소드 설정
 	@EventListener(ApplicationReadyEvent.class)
 	public void openChrome() {
-		String url = "http://localhost:9000/spring10/";
+		String url = "http://localhost:9000/spring03/";
 		// 운영체젝의 이름을 소문자로
 		String os = System.getProperty("os.name").toLowerCase();
 		ProcessBuilder builder = null;
@@ -38,5 +35,4 @@ public class Spring10ExampleApplication {
 			e.printStackTrace();
 		}
 	}
-
 }

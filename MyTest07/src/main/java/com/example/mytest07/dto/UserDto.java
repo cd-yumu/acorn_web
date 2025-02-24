@@ -1,6 +1,4 @@
-package com.example.spring10.dto;
-
-import org.springframework.web.multipart.MultipartFile;
+package com.example.mytest07.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -15,11 +13,9 @@ public class UserDto {
 	private long num;
 	private String userName;
 	private String password;
-	private String newPassword;
 	private String email;
 	private String role;
 	private String profileImage;
 	private String createdAt;
 	private String updatedAt;
-	private MultipartFile profileFile;	// 프로필 이미지 파일 업로드 처리 하기 위한 필드
 }

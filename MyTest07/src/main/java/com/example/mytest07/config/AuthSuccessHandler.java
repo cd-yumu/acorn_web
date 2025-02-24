@@ -1,4 +1,4 @@
-package com.example.spring10.config;
+package com.example.mytest07.config;
 
 import java.io.IOException;
 

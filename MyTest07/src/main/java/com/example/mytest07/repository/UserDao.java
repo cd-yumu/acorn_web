@@ -1,11 +1,11 @@
-package com.example.spring10.repository;
+package com.example.mytest07.repository;
 
-import com.example.spring10.dto.UserDto;
+import com.example.mytest07.dto.UserDto;
 
 public interface UserDao {
 	public UserDto getData(long num);	// Primary Key
 	public UserDto getData(String userName);
 	public int insert(UserDto dto);
-	public int updatePassword(UserDto dto);
+	public int updatePwd(UserDto dto);
 	public int update(UserDto dto);
 }

@@ -1,4 +1,4 @@
-package com.example.spring10.service;
+package com.example.mytest07.service;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,8 +13,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.example.spring10.dto.UserDto;
-import com.example.spring10.repository.UserDao;
+import com.example.mytest07.dto.UserDto;
+import com.example.mytest07.repository.UserDao;
 
 /*
  * Spring Security 가 로그인 처리 시 호출하는 메소드를 가지고 있는 서비스 클래스 정의하기

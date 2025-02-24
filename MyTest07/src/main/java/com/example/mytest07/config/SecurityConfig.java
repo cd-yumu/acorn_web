@@ -1,4 +1,4 @@
-package com.example.spring10.config;
+package com.example.mytest07.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -22,9 +22,8 @@ public class SecurityConfig {
 	 */
 	@Bean //메소드에서 리턴되는 SecurityFilterChain 을 bean 으로 만들어준다.
 	public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception{
-		// Spring Security 가 인증과정을 거치지 않는 요청 경로
 		String[] whiteList= {"/", "/play", "/user/loginform", "/user/login-fail", "/user/expired",
-				"/user/singup-form","/user/signup", "/user/checkid","/upload/**"};
+				"/user/singup-form","/user/signup", "/user/checkid"};
 		
 		httpSecurity
 		.csrf(csrf->csrf.disable())
