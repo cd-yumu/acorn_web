@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Repository;
 
+import com.example.spring10.dto.CommentDto;
 import com.example.spring10.dto.PostDto;
 import com.example.spring10.dto.PostListDto;
 import com.example.spring10.repository.PostDao;
@@ -127,5 +128,6 @@ public class PostServiceImpl implements PostService{
 		}
 		
 	}
+
 
 }

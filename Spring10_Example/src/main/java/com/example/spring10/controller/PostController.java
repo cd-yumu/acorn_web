@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.example.spring10.dto.CommentDto;
 import com.example.spring10.dto.PostDto;
 import com.example.spring10.dto.PostListDto;
 import com.example.spring10.service.PostService;
@@ -19,6 +20,9 @@ import jakarta.servlet.http.HttpSession;
 public class PostController {
 	
 	@Autowired private PostService service;
+	
+	
+	
 	
 	
 	// 글 삭제 요청 처리
