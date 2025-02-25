@@ -22,16 +22,13 @@ public class SecurityConfig {
 	 */
 	@Bean //메소드에서 리턴되는 SecurityFilterChain 을 bean 으로 만들어준다.
 	public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception{
-		String[] whiteList= {"/", "/play", "/user/loginform", "/user/login-fail", "/user/expired",
-				"/user/singup-form","/user/signup", "/user/checkid"};
+		String[] whiteList= {"/", "/user/loginform"};
 		
 		httpSecurity
 		.csrf(csrf->csrf.disable())
 		.authorizeHttpRequests(config ->
 			config
 				.requestMatchers(whiteList).permitAll()
-				.requestMatchers("/admin/**").hasRole("ADMIN")
-				.requestMatchers("/staff/**").hasAnyRole("ADMIN", "STAFF")
 				.anyRequest().authenticated()
 		)
 		.formLogin(config ->

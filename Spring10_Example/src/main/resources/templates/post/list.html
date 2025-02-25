@@ -16,6 +16,7 @@
 					<th>작성자</th>
 					<th>제목</th>
 					<th>조회수</th>
+					<th>수정일</th>
 					<th>등록일</th>
 				</tr>
 			</thead>
@@ -27,12 +28,13 @@
 						<a th:href="@{|view?num=${post.num}${dto.findQuery}|}">[[${post.title}]]</a>
 					</td>
 					<td>[[${post.viewCount}]]</td>
+					<td>[[${post.updatedAt}]]</td>
 					<td>[[${post.createdAt}]]</td>
 				</tr>
 			</tbody>
 		</table>
 		<nav>
-            <ul class="pagination" th:if="${dto.totalPageCount ne 0}">
+            <ul class="pagination" th:if="${dto.totalPageCount ne 0}"> 
                 <li th:if="${dto.startPageNum ne 1}" class="page-item">
                     <a class="page-link" th:href="@{|/post/list?pageNum=${dto.startPageNum - 1}${dto.findQuery}|}">Prev</a>
                 </li>

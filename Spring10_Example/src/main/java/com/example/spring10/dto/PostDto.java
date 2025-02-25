@@ -26,7 +26,4 @@ public class PostDto {
 	private String keyword;		// 검색 키워드
 	private long prevNum;		// 이전글의 글번호
 	private long nextNum;		// 다음글의 글번호
-	
-
-	
 }

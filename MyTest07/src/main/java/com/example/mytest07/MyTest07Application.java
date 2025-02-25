@@ -17,7 +17,7 @@ public class MyTest07Application {
 	// 서버가 준비 되었을 때 실행할 메소드 설정
 	@EventListener(ApplicationReadyEvent.class)
 	public void openChrome() {
-		String url = "http://localhost:9000/spring03/";
+		String url = "http://localhost:9000/mytest07/";
 		// 운영체젝의 이름을 소문자로
 		String os = System.getProperty("os.name").toLowerCase();
 		ProcessBuilder builder = null;

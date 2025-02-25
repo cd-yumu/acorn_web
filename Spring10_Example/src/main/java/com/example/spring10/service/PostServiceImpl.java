@@ -3,6 +3,7 @@ package com.example.spring10.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Repository;
 
 import com.example.spring10.dto.PostDto;
@@ -77,7 +78,53 @@ public class PostServiceImpl implements PostService{
 	}
 
 	@Override
-	public void insertPost(PostDto dto) {
+	public long createPost(PostDto dto) {
+		// 글 작성자를 얻어내서 dto에 담는다.
+		String writer = SecurityContextHolder.getContext().getAuthentication().getName();
+		dto.setWriter(writer);
+		
+		// 저장할 글 번호를 미리 얻어온다.
+		long num = postDao.getSequence();
+		
+		// dto 에 글번호를 넣은 다음 DB 에 저장한다.
+		dto.setNum(num);
+		postDao.insert(dto);
+		
+		// 저장한 글 번호를 리턴해준다.
+		return num;
+	}
+
+	@Override
+	public PostDto getByNum(long num) {
+		return postDao.getData(num);
+	}
+
+	@Override
+	public PostDto getDetail(PostDto dto) {
+		return postDao.getDetail(dto);
+	}
+
+	@Override
+	public void updatedPost(PostDto dto) {
+		postDao.update(dto);
+	}
+
+	@Override
+	public void deletePost(long num) {
+		postDao.delete(num);
+	}
+
+	@Override
+	public void manageViewCount(long num, String sessionId) {
+		// 세션 아이디를 얻어와서
+		boolean isReaded = postDao.isReaded(num, sessionId);
+		// 만약 안 읽었다면
+		if(!isReaded) {
+			// 조회수 1 증가
+			postDao.addViewCount(num);
+			// 이미 읽었다고 표시
+			postDao.insertReaded(num, sessionId);
+		}
 		
 	}
 
