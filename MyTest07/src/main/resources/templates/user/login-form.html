@@ -6,9 +6,9 @@
 </head>
 <body>
 	<h1>Login</h1>
-	<form th:action="@{/user/login-proc}">
-		<input type="text" name="userId"/>
-		<input type="password" name="userPwd"/>
+	<form th:action="@{/user/login-proc}" method="post" novalidate>
+		<div>ID: <input type="text" name="userId"/></div>
+		<div>Password: <input type="password" name="userPwd"/></div>
 		<button>Login</button>
 	</form>
 </body>

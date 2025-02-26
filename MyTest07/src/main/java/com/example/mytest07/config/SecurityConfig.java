@@ -22,7 +22,7 @@ public class SecurityConfig {
 	@Bean //메소드에서 리턴되는 SecurityFilterChain 을 bean 으로 만들어준다.
 	public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception{
 		// Spring Security 가 인증과정을 거치지 않는 요청 경로
-		String[] whiteList= {"/"};
+		String[] whiteList= {"/","/user/signup-form","/user/signup-proc"};
 		
 		httpSecurity
 		.headers(header ->

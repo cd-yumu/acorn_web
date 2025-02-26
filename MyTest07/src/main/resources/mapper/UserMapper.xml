@@ -11,5 +11,11 @@
 		FROM users
 		WHERE id=#{id}
 	</select>
+	
+	<insert id="insertUser" parameterType="userDto">
+		INSERT INTO USERS
+		(NUM, ID, PWD, EMAIL)
+		VALUES(USERS_SEQ.NEXTVAL, #{id}, #{pwd}, #{email})
+	</insert>
 
 </mapper>

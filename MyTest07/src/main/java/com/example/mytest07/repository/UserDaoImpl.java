@@ -16,4 +16,9 @@ public class UserDaoImpl implements UserDao {
 		return session.selectOne("user.getDataById", userId);
 	}
 
+	@Override
+	public int insertUser(UserDto dto) {
+		return session.insert("user.insert", dto);
+	}
+
 }
