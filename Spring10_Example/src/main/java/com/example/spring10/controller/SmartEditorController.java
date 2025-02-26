@@ -112,9 +112,9 @@ public class SmartEditorController {
 	        ///////////////// 서버에 파일쓰기 /////////////////
 	 		String contextPath=request.getContextPath();
 	        // 업로드된 이미지의 정보를 클라이언트에게 출력
-	        sFileInfo += "&bNewLine=true";    
+	        sFileInfo += "&bNewLine=true";    				// sFileURL = /spring10/upload/xxxx.jpg
 	        sFileInfo += "&sFileName=" + filename;    
-	        sFileInfo += "&sFileURL="+contextPath+"/upload/"+realFileNm;
+	        sFileInfo += "&sFileURL="+contextPath+"/upload/"+realFileNm;	
 	        //out.println(sFileInfo);
 	        return sFileInfo;
 	    }

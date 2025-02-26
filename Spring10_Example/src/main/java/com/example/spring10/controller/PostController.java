@@ -1,14 +1,19 @@
 package com.example.spring10.controller;
 
+import java.util.List;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.spring10.dto.CommentDto;
+import com.example.spring10.dto.CommentListRequest;
 import com.example.spring10.dto.PostDto;
 import com.example.spring10.dto.PostListDto;
 import com.example.spring10.service.PostService;
@@ -21,6 +26,41 @@ public class PostController {
 	
 	@Autowired private PostService service;
 	
+	@PostMapping("/post/update-comment")
+	@ResponseBody
+	public Map<String, Boolean> updateComment(CommentDto dto){
+		service.updateComment(dto);
+		return Map.of("isSuccess", true);
+	}
+	
+	@GetMapping("/post/delete-comment")
+	@ResponseBody
+	public Map<String, Boolean> commentDelete(long num){
+		
+		service.deleteComment(num);
+		// @ResponseBody 어노테이션을 붙여놓고 아래의 데이터를 리턴하면 {"isSuccess": true} 형식의 json 문자열이 응답된다.
+		return Map.of("isSuccess", true);
+	}
+	
+	
+	@GetMapping("/post/comment-list")
+	@ResponseBody 
+	public Map<String, Object> commentList(CommentListRequest clr){
+		//CommentListRequest 객체에는 댓글의 pageNum 과 원글의 글번호 postNum 이 들어있다.
+		// Map 을 리턴 받지만 Json 으로 응답된다. (Gson 기능이 내장되어 있다.)
+		return service.getComments(clr);
+	}
+	
+	// 댓글 저장 요청처리
+	@PostMapping("/post/save-comment")
+	@ResponseBody // dto 에 저장된 내용을 json 으로 응답하기 위한 어노테이션
+	public CommentDto saveComment(CommentDto dto) {
+		// dto 에는 content, postNum, targetWriter, parentNum 이 담겨있다. 
+		// 단, 원글의 댓글은 parentNum 이 없고 댓댓글만 있다. (원글댓글 경우 0)
+		
+		service.createComment(dto);
+		return dto;
+	}
 	
 	// 글 삭제 요청 처리
 	@GetMapping("/post/delete")
@@ -71,7 +111,7 @@ public class PostController {
 		 */
 		
 		ra.addFlashAttribute("saveMessage", "글을 성공적으로 저장했습니다.");
-		
+														// 자동으로 Model 에 담긴다(원리: 세션에 저장했다가 model 로 옮긴 후 바로 지운다)
 		// 글 자세히 보기로 리다이렉트 이동하라는 응답하기
 		return "redirect:/post/view?num=" + num;
 	}
@@ -81,7 +121,7 @@ public class PostController {
 	 *  PostDto dto 를 인자로 받아야 num 또는 num, condition, keyword 이렇게 받을 수 있다.
 	 */
 	@GetMapping("/post/view")
-	public String view(PostDto dto, Model model, HttpSession session) {
+	public String view(PostDto dto, Model model, HttpSession session) {		
 		
 		PostDto resultDto = service.getDetail(dto);
 		model.addAttribute("postDto", resultDto);

@@ -78,12 +78,16 @@ public class PostDaoImpl implements PostDao {
 		} else {	
 			return true;	// 이미 읽은 post
 		}
-		
 	}
 
 	@Override
 	public int addViewCount(long num) {
 		return session.update("post.addViewCount", num);
+	}
+
+	@Override
+	public int deleteReaded(long num) {
+		return session.delete("post.deleteReaded", num);
 	}
 
 }
