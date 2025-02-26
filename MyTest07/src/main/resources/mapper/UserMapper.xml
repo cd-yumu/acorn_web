@@ -6,15 +6,15 @@
 		num, id, pwd, email, profileImage, role, createdAt
 	</sql>
 
-	<select id="getDataById" parameterType="string" resultType="userDto">
+	<select id="getDataById" parameterType="string" resultType="com.example.mytest07.dto.UserDto">
 		SELECT <include refid="colName"/>
 		FROM users
 		WHERE id=#{id}
 	</select>
 	
-	<insert id="insertUser" parameterType="userDto">
+	<insert id="insertUser" parameterType="com.example.mytest07.dto.UserDto">
 		INSERT INTO USERS
-		(NUM, ID, PWD, EMAIL)
+		(num, id, pwd, email)
 		VALUES(USERS_SEQ.NEXTVAL, #{id}, #{pwd}, #{email})
 	</insert>
 

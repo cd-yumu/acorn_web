@@ -18,6 +18,16 @@ public class UserController {
 		return "user/login-form";
 	}
 	
+	@PostMapping("/user/login-success")
+	public String loginSuccess() {
+		return "user/login-success";
+	}
+	
+	@PostMapping("/user/login-fail")
+	public String loginFail() {
+		return "user/login-fail";
+	}
+	
 	@GetMapping("/user/signup-form")		
 	public String signupForm() {
 		return "user/signup-form";
@@ -25,7 +35,8 @@ public class UserController {
 	
 	@PostMapping("/user/signup-proc")
 	public String signupProc(UserDto dto) {
-		//service.newUser(dto);
-		return "user/signup-proc";
+		System.out.println(dto);
+		service.newUser(dto);
+		return "home";
 	}
 }

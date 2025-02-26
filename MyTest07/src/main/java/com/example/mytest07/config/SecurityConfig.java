@@ -22,7 +22,7 @@ public class SecurityConfig {
 	@Bean //메소드에서 리턴되는 SecurityFilterChain 을 bean 으로 만들어준다.
 	public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception{
 		// Spring Security 가 인증과정을 거치지 않는 요청 경로
-		String[] whiteList= {"/","/user/signup-form","/user/signup-proc"};
+		String[] whiteList= {"/","/user/signup-form","/user/signup-proc","/user/login-success","/user/login-fail"};
 		
 		httpSecurity
 		.headers(header ->
@@ -43,10 +43,10 @@ public class SecurityConfig {
 				//로그인 처리를 할때 요청될 url 설정 ( spring security 가 login 처리를 대신 해준다)
 				.loginProcessingUrl("/user/login-proc")
 				//로그인 처리를 대신 하려면 어떤 파라미터명으로 username 과 password 가 넘어오는지 알려주기 
-				.usernameParameter("userId")
-				.passwordParameter("userPwd")
+				.usernameParameter("id")
+				.passwordParameter("pwd")
 				.successHandler(new AuthSuccessHandler()) //로그인 성공시 핸들러 등록 
-				.failureForwardUrl("/user/login-form")	// 로그인 실패시 이동될 페이지 (로그인 폼으로 다시 이동)
+				.failureForwardUrl("/user/login-fail")	// 로그인 실패시 이동될 페이지 (로그인 폼으로 다시 이동)
 				.permitAll() //위에 명시한 모든 요청경로를 로그인 없이 요청할수 있도록 설정 
 		)
 		.logout(config ->
