@@ -22,9 +22,6 @@ public class PostController {
 	@Autowired private PostService service;
 	
 	
-	
-	
-	
 	// 글 삭제 요청 처리
 	@GetMapping("/post/delete")
 	public String delete(long num) {
