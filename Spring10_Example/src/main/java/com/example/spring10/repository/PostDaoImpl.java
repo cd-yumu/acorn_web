@@ -68,7 +68,6 @@ public class PostDaoImpl implements PostDao {
 
 	@Override
 	public boolean isReaded(long num, String sessionId) {
-		
 		Map<String, Object> map = Map.of("num", num, "sessionId", sessionId);
 		// select 되는 데이터가 있는지 읽어와서 
 		Map<String, Object> resultMap = session.selectOne("post.isReaded", map);
