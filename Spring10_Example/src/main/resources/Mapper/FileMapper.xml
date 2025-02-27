@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="file">
+
+	<sql id="colName">num, uploader, originFileName, saveFileName, fileSize, uploadedAt</sql>
+
+	<sql id="search">
+		<choose>
+			<when test="condition == 'originFileName'">
+				WHERE originFileName LIKE '%' || #{keyword} || '%'
+			</when>
+		</choose>
+	</sql>
+
+	<select id="getList" parameterType="fileDto" resultType="fileDto">
+		SELECT *
+		FROM(SELECT result1.*, ROWNUM as RNUM
+			FROM(SELECT <include refid="colName"/>
+				FROM FILES
+				<include refid="search"/>
+				ORDER BY num DESC) result1)
+		WHERE RNUM BETWEEN #{startRowNum} AND #{endRowNum}
+	</select>
+	
+	<insert id="insertFileInfo" parameterType="fileDto">
+		INSERT INTO FILES
+		( <include refid="colName"/> )
+		VALUES(files_seq.NEXTVAL, #{uploader}, #{originFileName}, #{saveFileName}, #{fileSize}, SYSDATE)
+	</insert>
+	
+	<select id="getData" parameterType="long" resultType="fileDto">
+		SELECT <include refid="colName"/>
+		FROM FILES
+		WHERE num=#{num}
+	</select>
+	
+	<delete id="deleteFileInfo" parameterType="long">
+		DELETE FROM FILES
+		WHERE NUM=#{num}
+	</delete>
+	
+	<select id="getCount" parameterType="fileListDto" resultType="int">
+		SELECT NVL(MAX(ROWNUM),0)
+		FROM FILES
+		<include refid="search"/>
+	</select>
+
+</mapper>

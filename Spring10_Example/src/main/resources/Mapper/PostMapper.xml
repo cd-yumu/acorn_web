@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="post">
-
+	
 	<sql id="column">
 		num, writer, title, content, viewCount, updatedAt, createdAt
 	</sql>
@@ -9,20 +9,20 @@
 	<sql id="search">
 		<choose>
 			<when test="condition == 'writer'">
-				WHERE writer LIKE '%'||#{keyword}||'%'
+				WHERE writer LIKE '%' || #{keyword} || '%'
 			</when>
 			<when test="condition == 'title'">
-				WHERE title LIKE '%'||#{keyword}||'%'
+				WHERE title LIKE '%' || #{keyword} || '%'
 			</when>
 			<when test="condition == 'title_content'">
-				WHERE title LIKE '%'||#{keyword}||'%' OR content LIKE '%'||#{keyword}||'%'
+				WHERE title LIKE '%' || #{keyword} || '%' OR content LIKE '%' || #{keyword} || '%'
 			</when>
 		</choose>
 	</sql>
 	
 	<delete id="deleteReaded" parameterType="long">
 		DELETE FROM readed_data
-		WEHRE num=#{num}
+		WHERE num=#{num}
 	</delete>
 	
 	<insert id="insertReaded" parameterType="map">
@@ -39,13 +39,12 @@
 	
 	<update id="addViewCount" parameterType="long">
 		UPDATE posts
-		SET viewCount = viewCount+1
+		SET viewCount=viewCount+1
 		WHERE num=#{num}
 	</update>
-	
 	<!-- 
-	parameter 로 전달되는 PostDto 에는 검색 keyword 가 있을수 있다. 
-	keyword 가 있다면 keword 에 해당하는 글 목록중에서 이전글의 글번호와 다음글의 글번호를 select 해야한다. 
+		parameter 로 전달되는 PostDto 에는 검색 keyword 가 있을수 있다. 
+		keyword 가 있다면 keword 에 해당하는 글 목록중에서 이전글의 글번호와 다음글의 글번호를 select 해야한다. 
 	 -->
 	<select id="getDetail" parameterType="postDto" resultType="postDto">
 		SELECT *
@@ -74,18 +73,6 @@
 		FROM posts
 		<include refid="search"/>
 	</select>
-
-	<select id="getList" parameterType="postDto" resultType="postDto">
-		SELECT *
-		FROM
-			(SELECT result1.*, ROWNUM as rnum
-			FROM
-				(SELECT <include refid="column"/>
-				FROM posts
-				<include refid="search"/>
-				ORDER BY num DESC) result1)
-		WHERE rnum BETWEEN #{startRowNum} AND #{endRowNum}		
-	</select>
 	
 	<insert id="insert" parameterType="postDto">
 		INSERT INTO posts
@@ -103,7 +90,18 @@
 		DELETE FROM posts
 		WHERE num=#{num}
 	</delete>
+
+	<select id="getList" parameterType="postDto" resultType="postDto">
+		SELECT *
+		FROM
+			(SELECT result1.*, ROWNUM AS rnum
+			FROM
+				(SELECT <include refid="column"/>
+				FROM  posts
+				<include refid="search"/>
+				ORDER BY num DESC) result1)
+		WHERE rnum BETWEEN #{startRowNum} AND #{endRowNum}		
+	</select>
 	
-
-
+		
 </mapper>

@@ -1,5 +1,6 @@
 package com.example.spring10.exception;
 
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -7,6 +8,15 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 // 예외 컨트롤러는 @ControllerAdvice 어노테이션을 붙여 bean 으로 만든다.
 @ControllerAdvice
 public class ExceptionController{
+	
+	// 거부된 요청일 때 실행되는 메소드
+	@ExceptionHandler(DeniedException.class)
+	public String denied(DeniedException de, Model model) {
+		// 예외 객체를 template 페이지에 전달하기
+		model.addAttribute("exception", de);
+		
+		return "error/denied";
+	}
 	
 	/*
 	 *  "/user/updated-password" 요청을 처리하는 중에 기본 비밀번호가 일치하지 않으면
@@ -29,4 +39,6 @@ public class ExceptionController{
 		// /user/edit-password 으로 요청을 다시 하라고 리다이렉트 응답하기
 		return "redirect:/user/edit-password";
 	}
+	
+	
 }
