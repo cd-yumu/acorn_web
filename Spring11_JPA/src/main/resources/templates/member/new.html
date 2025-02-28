@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>/member/new.html</title>
+</head>
+<body>
+	<div class="container">
+		
+		<h1>Add Member Form</h1>
+	
+		<form th:action="@{/member/save}" method="post">
+			<input type="text" name="name" placeholder="name..."/>
+			<input type="text" name="addr" placeholder="addr..."/>
+			<button type="submit">Add</button>
+		</form>
+	</div>
+</body>
+</html>
