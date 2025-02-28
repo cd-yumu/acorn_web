@@ -2,7 +2,30 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="file">
 
-	<sql id="colName">num, uploader, originFileName, saveFileName, fileSize, uploadedAt</sql>
+	<sql id="colName">num, title, uploader, originFileName, saveFileName, fileSize, uploadedAt</sql>
+
+
+	<delete id="deleteFileInfo" parameterType="long">
+		DELETE FROM FILES
+		WHERE NUM=#{num}
+	</delete>
+
+
+	<insert id="insertFileInfo" parameterType="fileDto">
+		INSERT INTO FILES
+		( <include refid="colName"/> )
+		VALUES(files_seq.NEXTVAL,#{title}, #{uploader}, #{originFileName}, #{saveFileName}, #{fileSize}, SYSDATE)
+	</insert>
+
+    <!-- updateFileInfo : 파일의 제목(title)만 수정 -->
+    <update id="updateFileInfo" parameterType="FileDto">
+        UPDATE FILES
+        SET TITLE = #{title}
+        WHERE NUM = #{num}
+    </update>
+
+
+
 
 	<sql id="search">
 		<choose>
@@ -22,11 +45,7 @@
 		WHERE RNUM BETWEEN #{startRowNum} AND #{endRowNum}
 	</select>
 	
-	<insert id="insertFileInfo" parameterType="fileDto">
-		INSERT INTO FILES
-		( <include refid="colName"/> )
-		VALUES(files_seq.NEXTVAL, #{uploader}, #{originFileName}, #{saveFileName}, #{fileSize}, SYSDATE)
-	</insert>
+
 	
 	<select id="getData" parameterType="long" resultType="fileDto">
 		SELECT <include refid="colName"/>
@@ -34,10 +53,7 @@
 		WHERE num=#{num}
 	</select>
 	
-	<delete id="deleteFileInfo" parameterType="long">
-		DELETE FROM FILES
-		WHERE NUM=#{num}
-	</delete>
+
 	
 	<select id="getCount" parameterType="fileListDto" resultType="int">
 		SELECT NVL(MAX(ROWNUM),0)

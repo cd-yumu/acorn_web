@@ -10,9 +10,15 @@ import com.example.spring10.dto.FileListDto;
 
 public interface FileService {
 	
-	public FileListDto getDatas(FileListDto fileListDto);
 	public void uploadFile(FileDto dto);
-	public ResponseEntity<InputStreamResource> downloadFile(long num);
+	public void updateFile(FileDto dto);
 	public void deleteFile(long num);
+	public void uploadFile2(FileDto dto);
+	
+	public ResponseEntity<InputStreamResource> getResponse(long num);
+	public FileListDto getDatas(FileListDto fileListDto);
+	
+	
+	
 
 }

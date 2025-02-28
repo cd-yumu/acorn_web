@@ -14,6 +14,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.example.spring10.dto.FileDto;
 import com.example.spring10.dto.FileListDto;
@@ -27,8 +28,113 @@ public class FileServiceImpl implements FileService{
 
 	@Autowired FileDao dao;
 	
+	// 파일을 저장할 위치
 	@Value("${file.location}")
 	private String fileLocation;
+	
+	
+	@Override
+	public void uploadFile(FileDto dto) {
+		
+		// 만약 파일이 업로드 되지 않았을 경우
+		if(dto.getMyFile().isEmpty()) {
+			throw new RuntimeException("Can't Find File Uploaded");
+		}
+		
+		// 업로드 한 사람
+		String uploader = SecurityContextHolder.getContext().getAuthentication().getName();
+		dto.setUploader(uploader);
+		// 원본 파일명
+		String orgingFileName = dto.getMyFile().getOriginalFilename();
+		dto.setOriginFileName(orgingFileName);
+		// 파일 크기
+		long fileSize = dto.getMyFile().getSize();
+		dto.setFileSize(fileSize);
+		// 저장될 이름
+		String saveFileName = fileLocation + File.separator + UUID.randomUUID().toString() + orgingFileName;
+		dto.setSaveFileName(saveFileName);
+		
+		// 파일 저장
+		try {
+			File saveFile = new File(saveFileName);
+			dto.getMyFile().transferTo(saveFile);
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+	
+		// 저장된 파일 정보를 DB 에 저장
+		dao.saveFileInfo(dto);
+		
+	}
+	
+	
+	
+	@Override
+	public void uploadFile2(FileDto dto) {	// dto 에는 title 과 myFile 만 들어있는 상태
+		
+		// FileDto 객체에서 MultipartFile 객체를 얻어낸다.
+		MultipartFile myFile = dto.getMyFile();
+		
+		// 만일 파일이 업로드되지 않았다면
+		if(myFile.isEmpty()) {
+			throw new RuntimeException("파일이 업로드 되지 않았습니다.");
+		}
+		
+		// 원본 파일명
+		String originFileName = myFile.getOriginalFilename();
+		// 파일의 크기
+		long fileSize = myFile.getSize();
+		//저장할 파일의 이름을 Universal Unique 한 문자열로 얻어내기
+		String saveFileName = UUID.randomUUID().toString() + originFileName;
+		// 저장할 파일의 전체 경로 구성하기
+		String filePath = fileLocation + File.separator + saveFileName;
+		
+		try {
+			// 업로드된 파일을 저장할 파일 객체 생성
+			File saveFile = new File(filePath);
+			myFile.transferTo(saveFile);
+			
+			
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+		// 업로더
+		String userName = SecurityContextHolder.getContext().getAuthentication().getName();
+		// FileDto 에 추가 정보를 담는다.
+		dto.setUploader(userName);
+		dto.setSaveFileName(saveFileName);
+		dto.setFileSize(fileSize);
+		dto.setOriginFileName(originFileName);
+		dto.setSaveFileName(filePath);
+		
+		// dao 를 이용해서 DB 에 저장하기
+		dao.saveFileInfo(dto);
+		
+	}
+	
+	
+	@Override
+	public void updateFile(FileDto dto) {
+		dao.updateFile(dto);
+	}
+	
+	@Override
+	public void deleteFile(long num) {
+		// 실제 파일 삭제??
+		
+		// 파일 삭제
+	 	int resultRow = dao.deleteFile(num);
+	 	if(resultRow < 1) {
+	 		throw new RuntimeException("파일 삭제 실패");
+	 	}
+	}
+
+	
+	
+	
+	
+	
 	
 	@Override
 	public FileListDto getDatas(FileListDto fileListDto) {
@@ -76,42 +182,10 @@ public class FileServiceImpl implements FileService{
 		return fileListDto;
 	}
 
-	@Override
-	public void uploadFile(FileDto dto) {
-		
-		// 만약 파일이 업로드 되지 않았을 경우
-		if(dto.getMyFile().isEmpty()) {
-			throw new RuntimeException("Can't Find File Uploaded");
-		}
-		
-		// 업로드 한 사람
-		String uploader = SecurityContextHolder.getContext().getAuthentication().getName();
-		dto.setUploader(uploader);
-		// 원본 파일명
-		String orgingFileName = dto.getMyFile().getOriginalFilename();
-		dto.setOriginFileName(orgingFileName);
-		// 파일 크기
-		long fileSize = dto.getMyFile().getSize();
-		dto.setFileSize(fileSize);
-		// 저장될 이름
-		String saveFileName = fileLocation + File.separator + UUID.randomUUID().toString() + orgingFileName;
-		dto.setSaveFileName(saveFileName);
-		
-		// 파일 저장
-		try {
-			File saveFile = new File(saveFileName);
-			dto.getMyFile().transferTo(saveFile);
-		} catch(Exception e) {
-			e.printStackTrace();
-		}
 	
-		// 저장된 파일 정보를 DB 에 저장
-		dao.saveFileInfo(dto);
-		
-	}
 
 	@Override
-	public ResponseEntity<InputStreamResource> downloadFile(long num) {
+	public ResponseEntity<InputStreamResource> getResponse(long num) {
 		// 해당 파일 번호에 해당하는 파일 정보 추출
 		FileDto dto = dao.getData(num);
 		
@@ -152,22 +226,14 @@ public class FileServiceImpl implements FileService{
 			return resEntity;
 		} catch(Exception e) {
 			e.printStackTrace();
+			throw new RuntimeException("파일 다운로드 실패!!!");
 		}
 		
-		
-		return null;
 	}
 
-	@Override
-	public void deleteFile(long num) {
-		
-		
-		// 파일 삭제
-	 	int resultRow = dao.deleteFile(num);
-	 	if(resultRow < 1) {
-	 		throw new RuntimeException("파일 삭제 실패");
-	 	}
-	}
+	
+
+	
 
 
 }
