@@ -17,6 +17,22 @@ public class MemberController {
 	@Autowired private MemberService service;
 	
 	
+	@GetMapping("/member/edit")
+	public String edit(int num, Model model) {
+		// 번호에 맞는 정보 가져오기
+		MemberDto dto = service.getData(num);
+		model.addAttribute("dto", dto);
+		System.out.println("DB 에서 가져온 dto: "+dto);
+		return "member/edit";
+	}
+	
+	
+	@GetMapping("/member/delete")
+	public String delete(int num) {
+		service.deleteMember(num);
+		return "redirect:/member/list";
+	}
+	
 	@PostMapping("/member/save")
 	public String save(MemberDto dto) {
 		service.saveMember(dto);

@@ -20,6 +20,7 @@ public class Spring11JpaApplication {
 	
 	@PostConstruct
 	public void memberTest() {
+		/*
 		// DB 에 저장할 Member entity 객체를 생성해서
 		Member m1 = Member.builder().name("김구라").addr("노량진").build();
 		Member m2 = Member.builder().name("해골").addr("행신동").build();
@@ -28,7 +29,7 @@ public class Spring11JpaApplication {
 		memberRepo.save(m1);
 		memberRepo.save(m2);
 		memberRepo.save(m3);
-		
+		*/
 	}
 	
 	public static void main(String[] args) {

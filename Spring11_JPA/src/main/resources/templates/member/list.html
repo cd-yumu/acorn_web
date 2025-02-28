@@ -17,6 +17,8 @@
 					<th>No</th>
 					<th>Name</th>
 					<th>Addr</th>
+					<th>Edit</th>
+					<th>Delete</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -24,6 +26,8 @@
 					<td>[[${tmp.num}]]</td>
 					<td>[[${tmp.name}]]</td>
 					<td>[[${tmp.addr}]]</td>
+					<td><a th:href="@{/member/edit(num=${tmp.num})}">edit</a></td>
+					<td><a th:href="@{/member/delete(num=${tmp.num})}">delete</a></td>
 				</tr>
 			</tbody>
 		</table>
