@@ -45,10 +45,11 @@ public class EmployController {
 	
 	@GetMapping("/emp/info")
 	public String empInfo(int empno, Model model) {
-		
+		// 사원번호를 이용해 해당 사원의 정보 추출
 		Emp emp = empRepo.findById(empno).get();
-		EmpDto dto = EmpDto.toDto(emp);
-		System.out.println("dto: " + dto);
+		// Entity 객체를 사용가능한 Dto 객체로 변환하기
+		EmpDeptDto dto = EmpDeptDto.toDto(emp);
+		System.out.println("추출된 데이터 dto: " + dto);
 		model.addAttribute("dto", dto);
 		
 		return "emp/info";

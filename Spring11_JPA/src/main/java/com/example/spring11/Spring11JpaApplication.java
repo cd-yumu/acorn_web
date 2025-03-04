@@ -92,10 +92,9 @@ public class Spring11JpaApplication {
 	@PostConstruct
 	public void galleryText() {
 		// Date Type 은 new Data() 해서 넣어주면 된다.
-		Gallery g1 = Gallery.builder().writer("맹구").title("간식먹는중").build();
+		Gallery g1 = Gallery.builder().writer("맹구").title("간식먹는중").createdAt(new Date()).build();
 		Gallery g2 = Gallery.builder().writer("건강이").title("텔레파시").build();
 		Gallery g3 = Gallery.builder().writer("메롱이").title("이쁜메롱이").build();
-		
 		
 		galleryRepo.save(g1);
 		galleryRepo.save(g2);
