@@ -22,7 +22,6 @@ public class MemberController {
 		// 번호에 맞는 정보 가져오기
 		MemberDto dto = service.getData(num);
 		model.addAttribute("dto", dto);
-		System.out.println("DB 에서 가져온 dto: "+dto);
 		return "member/edit";
 	}
 	

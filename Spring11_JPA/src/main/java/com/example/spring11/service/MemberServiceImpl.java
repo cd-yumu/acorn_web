@@ -14,13 +14,17 @@ import com.example.spring11.repository.MemberRepository;
 @Service
 public class MemberServiceImpl implements MemberService{
 
-	@Autowired private MemberRepository repo;
+	@Autowired private MemberRepository repo;	// dao 역할을 한다.
 	
 	
 	@Override
 	public List<MemberDto> getAll() {
 		// Member Entity 의 목록
-		List<Member> entityList = repo.findAll();
+		// List<Member> entityList = repo.findAll();
+		
+		// 추가한 메소드를 이용해서 num 에 대해서 내림차순 정렬된 목록을 얻어낼 수 있다.
+		List<Member> entityList = repo.findAllByOrderByNumDesc();
+		// entity 리스트를 dto 리스트로 바꿔야 한다!
 		
 		/*
 		// MemberDto 의 목록으로 만들어서 리턴해야 한다.
@@ -37,7 +41,9 @@ public class MemberServiceImpl implements MemberService{
 		// List<MemberDto> list = entityList.stream().map(item -> MemberDto.toDto(item)).toList();
 		
 		// 방법 2
+		// stream() 을 이용하면 한 줄의 coding 으로 위의 동작을 할 수가 있다.  이 한줄의 코드는 난이도가 있는 편..! map 을 사용하는 것. 메소드 참조식 :: 알기 꼭!
 		List<MemberDto> list = entityList.stream().map(MemberDto::toDto).toList();
+		// map 함수를 사용하기 위해서는 stream 을 호출한다. 
 		
 		return list;
 	}
@@ -55,11 +61,8 @@ public class MemberServiceImpl implements MemberService{
 
 	@Override
 	public MemberDto getData(int num) {
-		
-		Optional<Member> mem = repo.findById(num);
-		
-		MemberDto dto = MemberDto.toDto(mem.get());
-		
+		Member mem = repo.findById(num).get();
+		MemberDto dto = MemberDto.toDto(mem);
 		return dto;
 	}
 

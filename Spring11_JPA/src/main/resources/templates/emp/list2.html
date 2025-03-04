@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>/emp/list2.html</title>
+</head>
+<body>
+	<div class="container">
+		<h1>Employee List 2</h1>
+		<table>
+			<thead>
+				<tr>
+					<th>EMP NO</th>
+					<th>EMP NAME</th>
+					<th>DEPT NO</th>
+					<th>DEPT NAME</th>
+					<th>DEPT LOC</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="tmp:${list}">
+					<td th:text="${tmp.empno}"></td>
+					<td><a th:href="@{/emp/info(empno=${tmp.empno})}">[[${tmp.ename}]]</a></td>
+					<td th:text="${tmp.deptno}"></td>
+					<td th:text="${tmp.dname}"></td>
+					<td th:text="${tmp.loc}"></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</body>
+</html>
