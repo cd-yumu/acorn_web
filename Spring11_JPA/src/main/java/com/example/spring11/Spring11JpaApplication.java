@@ -36,7 +36,6 @@ public class Spring11JpaApplication {
 	
 	@PostConstruct
 	public void initEmpDept() {
-		System.out.println("test hello!");
 		
 		/*
 		 *  emp, dept 셈플 데이터를 JPQL 을 이용해서 넣어주기 
