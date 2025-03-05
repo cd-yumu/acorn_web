@@ -7,48 +7,24 @@
 <body>
 	<div class="container">
 		<table>
-			<tr>
-				<th>사원 번호</th>
-				<td th:text="${dto.empno}"></td>
-			</tr>
-			<tr>
-				<th>이름</th>
-				<td th:text="${dto.ename}"></td>
-			</tr>
-			<tr>
-				<th>직책</th>
-				<td th:text="${dto.job}"></td>
-			</tr>
-			<tr>
-				<th>담당 매니져</th>
-				<td th:text="${dto.mgr}"></td>
-			</tr>
-			<tr>
-				<th>고용일</th>
-				<td th:text="${dto.hiredate}"></td>
-			</tr>
-			<tr>
-				<th>급여</th>
-				<td th:text="${dto.sal}"></td>
-			</tr>
-			<tr>
-				<th>커미션</th>
-				<td th:text="${dto.comm}"></td>
-			</tr>
-			<tr>
-				<th>부서 번호</th>
-				<td th:text="${dto.deptno}"></td>
-			</tr>
-			<tr>
-				<th>부서 이름</th>
-				<td th:text="${dto.dname}"></td>
-			</tr>
-			<tr>
-				<th>부서 위치</th>
-				<td th:text="${dto.loc}"></td>
-			</tr>
-			
-			
+			<thead>
+				<tr>
+					<th>EMP NO</th>
+					<th>EMP NAME</th>
+					<th>DEPT NO</th>
+					<th>DEPT NAME</th>
+					<th>DEPT LOC</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="tmp:${list}">
+					<td th:text="${tmp.empno}"></td>
+					<td>[[${tmp.ename}]]</a></td>
+					<td th:text="${tmp.deptno}"></td>
+					<td>[[${tmp.dname}]]</a></td>
+					<td th:text="${tmp.loc}"></td>
+				</tr>
+			</tbody>
 		</table>
 		
 		<a th:href="@{/emp/list2}">직원 목록으로 가기</a>

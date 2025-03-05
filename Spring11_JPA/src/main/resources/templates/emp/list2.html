@@ -22,7 +22,7 @@
 					<td th:text="${tmp.empno}"></td>
 					<td><a th:href="@{/emp/info(empno=${tmp.empno})}">[[${tmp.ename}]]</a></td>
 					<td th:text="${tmp.deptno}"></td>
-					<td th:text="${tmp.dname}"></td>
+					<td><a th:href="@{/emp/dinfo(deptno=${tmp.deptno})}">[[${tmp.dname}]]</a></td>
 					<td th:text="${tmp.loc}"></td>
 				</tr>
 			</tbody>

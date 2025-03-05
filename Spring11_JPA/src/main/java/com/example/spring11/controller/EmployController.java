@@ -55,4 +55,13 @@ public class EmployController {
 		return "emp/info";
 	}
 	
+	@GetMapping("/emp/dinfo")
+	public String dinfo(int deptno, Model model) {
+
+		List<Emp> list = empRepo.findAllByDeptno();
+		model.addAttribute("list", list);
+		
+		return "emp/info-dept.html";
+	}
+	
 }

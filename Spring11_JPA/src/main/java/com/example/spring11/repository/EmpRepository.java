@@ -9,4 +9,7 @@ import com.example.spring11.entity.Emp;
 public interface EmpRepository extends JpaRepository<Emp, Integer>{
 	// 사원이름에 대해서 오름차순 정렬된 결과를 리턴하는 메소드 추가
 	public List<Emp> findAllByOrderByEnameAsc();
+	
+	public List<Emp> findAllByDeptno();
+
 }
