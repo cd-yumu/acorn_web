@@ -10,7 +10,6 @@ import io.swagger.v3.oas.models.info.Info;
 public class SwaggerConfig {
 	@Bean
 	public OpenAPI customOpenAPI() {
-		
 		Info info = new Info()
 				.title("Open API 문서다")
 				.version("1.0")

@@ -18,7 +18,7 @@ public class SecurityConfig {
 	/*
 	 *  매개변수에 전달되는 HttpSecurity 객체를 이용해서 우리의 프로젝트 상황에 맞는 설정을 기반으로 
 	 *  만들어진 SecurityFilterChain 객체를 리턴해주어야 한다.
-	 *  또한 SecurityFilterChain 객체도 스프링이 관리하는 Bean 이 되어야 한다  
+	 *  또한 SecurityFilterChain 객체도 스프링이 관리하는 Bean 이 되어야 한다 
 	 */
 	@Bean //메소드에서 리턴되는 SecurityFilterChain 을 bean 으로 만들어준다.
 	public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception{
