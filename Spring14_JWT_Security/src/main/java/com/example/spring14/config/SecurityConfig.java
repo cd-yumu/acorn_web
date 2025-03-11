@@ -20,27 +20,28 @@ import com.example.spring14.filter.JwtFilter;
 
 import jakarta.servlet.http.Cookie;
 
-@Configuration		// 설정용 클래스라고 알려줌
-@EnableWebSecurity	// Security 를 설정하기 위한 어노테이
+@Configuration //설정 클래스라고 알려준다
+@EnableWebSecurity //Security 를 설정하기 위한 어노테이션
 public class SecurityConfig {
 	
-	// jwt 를 쿠키로 저장할 때 쿠키의 이름
+	//jwt 를 쿠키로 저장할때 쿠키의 이름
 	@Value("${jwt.name}")
 	private String jwtName;
 	
-	@Autowired JwtFilter JwtFilter;
+	@Autowired
+	private JwtFilter jwtFilter;
 	
 	/*
 	 *  매개변수에 전달되는 HttpSecurity 객체를 이용해서 우리의 프로젝트 상황에 맞는 설정을 기반으로 
 	 *  만들어진 SecurityFilterChain 객체를 리턴해주어야 한다.
-	 *  또한 SecurityFilterChain 객체도 스프링이 관2리하는 Bean 이 되어야 한다 
+	 *  또한 SecurityFilterChain 객체도 스프링이 관리하는 Bean 이 되어야 한다  
 	 */
 	@Bean //메소드에서 리턴되는 SecurityFilterChain 을 bean 으로 만들어준다.
-	public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity,
-			AuthSuccessHandler successHandler,
-			CookieRequestCache cookCache) throws Exception{
-		String[] whiteList= {"/", "/play", "/user/loginform", "/user/login-fail", "/user/expired"};
-		
+	public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity, 
+			AuthSuccessHandler successHandler) throws Exception{
+		String[] whiteList= {"/", "/play", "/api/auth",
+				"/user/loginform", "/user/login-fail", "/user/expired"};
+		 
 		httpSecurity
 		.csrf(csrf->csrf.disable())
 		.authorizeHttpRequests(config ->
@@ -59,14 +60,13 @@ public class SecurityConfig {
 				//로그인 처리를 대신 하려면 어떤 파라미터명으로 username 과 password 가 넘어오는지 알려주기 
 				.usernameParameter("userName")
 				.passwordParameter("password")
-				.successHandler(new AuthSuccessHandler()) //로그인 성공 핸들러 등록
+				.successHandler(successHandler) //로그인 성공 핸들러 등록
 				.failureForwardUrl("/user/login-fail")
 				.permitAll() //위에 명시한 모든 요청경로를 로그인 없이 요청할수 있도록 설정 
 		)
 		.logout(config ->
 			config
 				.logoutUrl("/user/logout")//Spring Security 가 자동으로 로그아웃 처리 해줄 경로 설정
-				// 쿠키를 지워야 로그아웃 처리라고 할 수 있다.
 				.logoutSuccessHandler((request, response, auth)->{
 					Cookie cook=new Cookie(jwtName, null);
 					//쿠키를 삭제하기 위해 setMaxAge(0)
@@ -82,14 +82,14 @@ public class SecurityConfig {
 			//403 forbidden 인 경우 forward 이동 시킬 경로 설정 
 			config.accessDeniedPage("/user/denied")
 		)
-		.sessionManagement(config -> 
-			// 세션을 사용하지 않도록 설정한다. 즉, 상태없음으로 설정.
+		.sessionManagement(config ->
+			//세션을 사용하지 않도록 설정한다.
 			config.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 		)
-		.addFilterBefore(JwtFilter, UsernamePasswordAuthenticationFilter.class)
-		.requestCache(config -> config.requestCache(cookCache));
+		.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
 		
-		// 설정 정보를 가지고 있는 HttpSecurity 객체의 built() 메소드를 호출해서 리턴되는 객체를 리턴해준다.
+		
+		// 설정 정보를 가지고 있는 HttpSecurity 객체의 build() 메소드를 호출해서 리턴되는 객체를 리턴해준다.
 		return httpSecurity.build();
 	}
 	
@@ -111,10 +111,14 @@ public class SecurityConfig {
 				.build();
 	}
 	
-	// 쿠키 cache 를 bean 으로 만든다.
-	@Bean
-	CookieRequestCache getCookieRequestCache() {
-		return new CookieRequestCache();
-	}
-	
 }
+
+
+
+
+
+
+
+
+
+
