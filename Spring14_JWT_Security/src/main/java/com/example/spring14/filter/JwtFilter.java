@@ -75,6 +75,7 @@ public class JwtFilter extends OncePerRequestFilter{//OncePerRequestFilter 클�
 			jwtToken = jwtToken.substring(7);
 			// userName 을 token 으로 부터 얻어낸다.
 			userName = jstUtil.extractUsername(jwtToken);
+		
 		}
 		// 토큰에서 Bearer 제거하고 남은 코드로 사용자 이름(userName) 추출 (userName 에 저장)
 		
@@ -86,12 +87,22 @@ public class JwtFilter extends OncePerRequestFilter{//OncePerRequestFilter 클�
 			if(isValid) {
 				Claims claims = jstUtil.extractAllClaims(jwtToken); // JWT에서 모든 정보 가져오기
 				String role = claims.get("role", String.class);
+				
+				/*	이름과 권한 정보만 저장할껀데 이렇게 까지 사용할 필요는 사실 없다.
 				List<String> roles=List.of(role);
 				List<SimpleGrantedAuthority> authorities=roles.stream().map(SimpleGrantedAuthority::new).toList();
 				//토큰에 있는 정보를 이용해서 UserDetails 객체를 생성
 				UserDetails ud=new User(userName, 
 						"", //비밀번호는 필요 없음 
 						authorities);
+				*/
+				
+				// userName 과 role 정보를 담은 UserDeails 객체를 만든다.
+				UserDetails ud = User.withUsername(userName)
+						.password("")		// 비밀번호는 필요없지만 null 인 상태면 builder 에서 에러 발생
+						.authorities(role)
+						.build();
+				
 				//사용자가 제출한 사용자 이름과 비밀번호와 같은 인증 자격 증명을 저장
 				UsernamePasswordAuthenticationToken authToken=
 					new UsernamePasswordAuthenticationToken(ud, null, 

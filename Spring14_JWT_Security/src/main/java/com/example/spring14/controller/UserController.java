@@ -5,6 +5,8 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -25,6 +27,16 @@ public class UserController {
 	@Autowired JwtUtil jwtUtil;
 	// SecurityConfig 클래스에서 Bean 이 된 AuthenticationManager 객체를 주입받기
 	@Autowired AuthenticationManager authManager;
+	
+	
+	//@PreAuthorize("hasRole('ADMIN')")	// Role 을 따질 때
+	@Secured("ROLE_ADMIN")				// Authority 를 따질 때
+	@GetMapping("/secured/ping")
+	@ResponseBody
+	public String securedPing() {
+		return "pong! pong!";
+	}
+	
 	
 	@GetMapping("/api/ping")	// white list 에 등록되지 않은 요청은 token 이 있어야 요청 가능하다
 	@ResponseBody
@@ -97,12 +109,11 @@ public class UserController {
 	//ROLL_ADMIN 만 요청 가능
 	@GetMapping("/admin/user/manage")
 	public String userManage() {
-		
 		return "user/manage";
 	}
 	
 	
-	@GetMapping("/user/loginform")
+	@RequestMapping("/user/loginform")
 	public String loginform() {
 		// templates/user/loginform.html 페이지로 forward 이동해서 응답 
 		return "user/loginform";
