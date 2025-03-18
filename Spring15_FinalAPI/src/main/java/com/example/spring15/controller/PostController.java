@@ -6,7 +6,9 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -66,31 +68,26 @@ public class PostController {
 	}
 	
 	// 글 삭제 요청 처리
-	@GetMapping("/post/delete")
-	public String delete(long num) {
+	@DeleteMapping("/posts/{num}")	// /{num} - 경로변수로 넘어오는 값 받기
+	public PostDto delete(@PathVariable(value = "num") long num) {
+		PostDto dto = service.getByNum(num);
+		// 서비스 객체를 이용해서 삭제하기
 		service.deletePost(num);
-		return "post/delete";
+		// 삭제된 글 정보를 리턴하기
+		return dto;
 	}
 	
 	
 	// 글 수정 반영 요청 처리
-	@PostMapping("/post/update")
-	public String update(PostDto dto, RedirectAttributes ra) {
-		
+	@PatchMapping("/posts/{num}")	// {num} 으로 경로 파라미터를 받는다.
+	public PostDto update(@PathVariable(value="num") long num,	// 글 번호
+			@RequestBody PostDto dto) {							// title 과 content 를 받는다.
+		// 글 번호를 dto 에 담는다.
+		dto.setNum(num);
+		// 서비스를 이용해서 수정반영
 		service.updatedPost(dto);
-		ra.addFlashAttribute("updateMessage", dto.getNum()+" 번 글을 수정했습니다.");
-		
-		// 수정 반영 후 글 자세히 보기로 이동
-		return "redirect:/post/view?num="+dto.getNum();
-	}
-	
-	// 글 수정 폼 요청 처리
-	@GetMapping("/post/edit")
-	public String edit(long num, Model model) {
-		// 수정할 글 정보를 얻어와서 Model 객체에 담는다.
-		PostDto dto = service.getByNum(num);
-		model.addAttribute("dto", dto);
-		return "post/edit";
+		// 수정된 글 정보 리턴
+		return dto;
 	}
 	
 	
