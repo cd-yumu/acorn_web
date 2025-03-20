@@ -38,7 +38,7 @@ public class SecurityConfig {
 	 */
 	@Bean //메소드에서 리턴되는 SecurityFilterChain 을 bean 으로 만들어준다.
 	public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception{
-		String[] whiteList= {"/auth","/upload/**","/editor_upload"};
+		String[] whiteList= {"/auth","/upload/**","/editor_upload", "/gemini/**"};
 		// whiteList 에 단순히 "/posts" 를 추가하면 Get, Post, Delete, Put 등.. 모두 허용된다 
 		// 따라서, 여기가 아닌 아래 추가 설정 코드가 필요
 		 
