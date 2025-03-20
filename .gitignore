@@ -1,5 +1,5 @@
 #gemini 키는 제외하기
-Spring16_AI/src/main/resources/custom.properties
+#Spring16_AI/src/main/resources/custom.properties
 
 /.metadata/
 
