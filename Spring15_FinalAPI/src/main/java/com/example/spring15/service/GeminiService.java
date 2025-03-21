@@ -59,7 +59,7 @@ public class GeminiService {
     		         **JSON 형식으로 출력해.**
     		         **"{" 또는 "}" 같은 특수 문자 없이 출력하세요.**
     		         **추가적인 설명 없이 위 형식 그대로 출력하세요.** 
-    		         **markdown 으로 출력하지 마세요.**                     
+    		         **markdown 으로 출력하지 마세요.**                    
     	""".formatted(map);
     	
     	return getChatResponse(str);
