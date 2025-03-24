@@ -75,6 +75,9 @@ public class GeminiService {
     	 * { "isCorrect" : false, "comment" : "틀린이유 설명"} 
     	 * 형식의 json 문자열을 Gemini 가 응답하도록 프로그래밍 해 보세요. 
     	 */
+    	
+    	// Map 데이터를 이용해 질문 구성
+    	// Gemini AI 에게 보내고 응답을 받는다.
     	String str = """
     			문제: "%s"
                 답: "%s"
@@ -87,6 +90,7 @@ public class GeminiService {
                 "isCorrect" 에는 맞으면 true, 틀리면 false 를 넣어줘.
                 "comment" 에는 그 이유를 markdown 으로 예쁘고 아기자기하면서 가독성있게 꾸며서 넣어줘.
        """.formatted(map.get("quiz"), map.get("answer"));
+    	
     	
     	return getChatResponse(str);
     }

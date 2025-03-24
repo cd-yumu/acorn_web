@@ -19,6 +19,7 @@ public class GeminiController {
 	@PostMapping("/gemini/quiz")
 	public Mono<String> quiz(@RequestBody Map<String, String> map) {
 		// {quiz: 문제, answer: 답} 을 전달 받는다.
+		// JSON 데이터를 Map으로 담아온다
 		
 		return service.quiz2(map);
 	}
