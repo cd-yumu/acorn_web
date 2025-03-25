@@ -30,19 +30,17 @@ public class PostController {
 	
 	@Autowired private PostService service;
 	
-	@PatchMapping("/posts/{num}/comments")
-	@ResponseBody
+	@PatchMapping("/posts/{num}/comments/{commentNum}")	// 사실 commentNum 를 사용하지 않지만 restful api 형식에 맞춰주는 것이다.
 	public Map<String, Boolean> updateComment(@RequestBody CommentDto dto){
 		// dto 에는 댓글의 글번호와 댓글의 내용이 들어있다.
 		service.updateComment(dto);
 		return Map.of("isSuccess", true);
 	}
 	
-	@DeleteMapping("/posts/{num}/delete-comment")
-	@ResponseBody
-	public Map<String, Boolean> commentDelete(@PathVariable("num") long num){
-		service.deleteComment(num);
-		// @ResponseBody 어노테이션을 붙여놓고 아래의 데이터를 리턴하면 {"isSuccess": true} 형식의 json 문자열이 응답된다.
+	@DeleteMapping("/posts/{num}/delete-comment/{commentNum}")
+	public Map<String, Boolean> commentDelete(@PathVariable("commentNum") long commentNum){
+		// 해당 댓글 삭제하기
+		service.deleteComment(commentNum);
 		return Map.of("isSuccess", true);
 	}
 	
