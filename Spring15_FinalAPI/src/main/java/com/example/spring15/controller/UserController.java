@@ -59,7 +59,7 @@ public class UserController {
 
 	// 토큰을 발급 받는 로그인 관련 메소드
 	@PostMapping("/auth")
-	public ResponseEntity<String> auth(@RequestBody UserDto dto) throws Exception{
+	public ResponseEntity<String> auth(@RequestBody UserDto dto) throws Exception{	
 		
 		Authentication authentication = null;
 		

@@ -32,7 +32,6 @@ public class PostController {
 	@Autowired private PostRepository repo;
 	
 	
-	
 	// Map, dto, List, int, String 모두 응답할 수 있다.
 	// 일반 form 전송일 경우 input 요소의 name 속성 값이 dto 의 필드명과 동일하다면 자동 추출된다.
 	// 그러나 API 전송일 경우 Json 문자열을 전송 및 전달 받는다. 이 때는 추출하는 방법이 다르다.
