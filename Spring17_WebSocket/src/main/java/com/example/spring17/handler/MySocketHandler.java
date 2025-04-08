@@ -35,6 +35,8 @@ public class MySocketHandler extends TextWebSocketHandler{
 	@Override
 	protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
 		System.out.println(message.getPayload());
+		
+		// 반복문 돌면서 모든 소켓 세션 객체에게 다 보내는 중
 		sessionList.forEach((item)->{
 			try {
 				// item 은 WebSocketSession
