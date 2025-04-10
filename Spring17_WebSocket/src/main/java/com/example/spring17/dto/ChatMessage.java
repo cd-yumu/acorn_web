@@ -4,6 +4,7 @@ import lombok.Data;
 
 @Data
 public class ChatMessage{
-	private String userName;
-	private String text;
+	private String userName;	// 이름
+	private String text;		// 보내는 메시지
+	private String toUserName;	// 귓말을 보낼 상대
 }

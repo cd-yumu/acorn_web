@@ -1,39 +1,113 @@
 package com.example.spring17.handler;
 
-import org.springframework.stereotype.Component;
-import org.springframework.web.socket.WebSocketSession;
-import java.util.*;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
-@Component	// Bean 생성 (어딘가 주입 받아 사용하겠다는 의미)
-public class SocketSessionManager {
-	// Thread Safe 한 동기화된 리스트 객체 사용하기 
-	List<WebSocketSession> sessionList=Collections.synchronizedList(new ArrayList<>());
-	
-	/*
-	 * userName <=> SocketSession 을 저장하기 위한 Map
-	 * userName 을 알면 바로 세션을 구할 수 있도록..
-	 * 
-	 * ConcurrentHashMap 객체도 Thread Safe 한 동기화된 Map 객체 (Thread 안정성 보장 필요)
-	 */
-	Map<String, WebSocketSession> userSession = new ConcurrentHashMap<>();
+import org.springframework.stereotype.Component;
+import org.springframework.web.socket.TextMessage;
+import org.springframework.web.socket.WebSocketSession;
 
-	// 대화방에 참여한  user 의 session 을 저장하는 메소드 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+
+@Component
+public class SocketSessionManager {
+	// Thread Safe 한 동기화된 리스트 객체 사용하기 (웹소켓 접속한 모든 클라이언트의 session 이 저장되어 있다)
+	List<WebSocketSession> sessionList=Collections.synchronizedList(new ArrayList<>());
+	/*
+	 *  userName <=> SocketSession  를 저장하기 위한 Map
+	 *  ConcurrentHashMap 객체도 Thread Safe 한 동기화된 Map 객체 
+	 *  ( 대화방에 입장한 모든 클라이언트의 session 과 userName 이 저장되어 있다)
+	 */
+	Map<String, WebSocketSession> userSessions=new ConcurrentHashMap<>();	// userName (key) : session (value) 대응된 userSession
+	Map<WebSocketSession, String> sessionUsers=new ConcurrentHashMap<>();
+	// 객체 <=> json 변경을 위한 객체 
+	ObjectMapper mapper=new ObjectMapper();
+	
+	//대화방에 참여한 모든 userName 목록을 리턴하는 메소드
+	public List<String> getAllUserNames(){
+		//Map 에 있는 모든 key(userName) 값을  Set<String> 으로 얻어내기
+		Set<String> keySet=userSessions.keySet();
+		//Set 에 들어 있는 내용을 이용해서 List 얻어내기
+		List<String> userList=new ArrayList<String>(keySet);		
+		return userList;
+	}
+	
+	//대화방에 참여한 user 의 session 을 저장하는 메소드 
 	public void enterUser(String userName, WebSocketSession session) {
-		userSession.put(userName, session);	// userName 과 세션 일 대 일 대응해서 저장
+		userSessions.put(userName, session);
+		sessionUsers.put(session, userName);
 	}
-	
-	// userName 을 전달하면 해당 Session 을 리턴해주는 메소드 
+	//userName 를 전달하면 해당 Session 을 리턴해주는 메소드 
 	public WebSocketSession getUserSession(String userName) {
-		return userSession.get(userName);	// userName 을 이용해 대응되는 세션을 반환
+		return userSessions.get(userName);
 	}
-	
-	// 모든 user session 정보를 리턴하는 메소드
+	// session 을 전달하면 해당 session 을 사용하는 userName 을 리턴해주는 메소드 
+	public String getSessionUser(WebSocketSession session) {
+		return sessionUsers.get(session);
+	}
+	//모든 user session 정보를 리턴하는 메소드
 	public Map<String, WebSocketSession> getAllUserSession(){
-		return userSession;
+		return userSessions;
+	}
+	// userName 을 Map 에서 제거하는 메소드 
+	public void removeUser(String userName) {
+		//제거하고 제거된 session 이 리턴된다.
+		WebSocketSession removedSession=userSessions.remove(userName);
+		//sessionUsers 에서도 session 을 이용해서 해당 정보를 제거하기
+		sessionUsers.remove(removedSession);
+		// 누가 퇴장했는지에 대한 정보를 Map 에 담아서
+		Map<String, Object> map=Map.of(
+			"type", "leave",
+			"payload", Map.of(
+				"userName", userName	// 누가 퇴장했는지의 정보는 payload.userName 에 담긴다.
+			)
+		);
+		// json 으로 변경하고
+		String json="{}";
+		try {
+			json = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(map);
+		} catch (JsonProcessingException e) {
+			e.printStackTrace();
+		}
+		// boradcast 한다.
+		TextMessage msg = new TextMessage(json);
+		broadcast(msg); 
 	}
 	
+	//대화방에 입장한 모든 session 에 TextMessage 를 중계하는 메소드
+	public void broadcast(TextMessage msg) {
+		//Map 에 저장된 모든 key, value 를 순회하면서 
+		sessionUsers.forEach((key, value)->{
+			// key : session, value : userName
+			try {
+				key.sendMessage(msg);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		});
+	}
 	
+	// 특정 session 에만 TextMessage 를 전송하는 메소드
+	public void privateMessage(String userName, TextMessage msg) {
+		// userName 에게 보낼 수 있는 session 을 얻어내서
+		WebSocketSession session = userSessions.get(userName);
+		// 만일 없으면 메소드 종료
+		if(session == null) return;
+		
+		try {
+			// 해당 session 에만 메시지를 보낸다.
+			session.sendMessage(msg);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 	
 	
 	public void register(WebSocketSession session) {
@@ -47,6 +121,8 @@ public class SocketSessionManager {
 	public List<WebSocketSession> getSessions(){
 		return sessionList;
 	}
+	
 }
+
 
 
